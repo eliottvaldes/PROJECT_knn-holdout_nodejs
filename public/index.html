@@ -21,6 +21,80 @@
 
                 <div id="app">
 
+
+                    <div id="tratamiento-archivo" class="container">
+                        <h3 class="mb-5">
+                            Configuaración inicial de entorno
+                        </h3>
+
+                        <!-- mostramos btn para obtener data si aun no la tenemos -->
+                        <button 
+                        v-if="irisData.length==0" 
+                        @click="getIrisData()"
+                        class="btn btn-outline-primary"
+
+                        >
+                            Obtener data de archivo
+                        </button>
+
+                        <!-- loader -->
+                        <div v-if="loadingIrisData">
+                            loading
+                        </div>
+
+                        <div v-if="irisData.length>0">
+
+                            <!-- btn to show data -->
+                            <div v-if="!showIrisData">
+                                <button @click="showIrisData=!showIrisData" class="btn btn-outline-primary">
+                                    Ver todos los datos
+                                </button>
+                            </div>
+
+
+                            <div v-if="showIrisData">
+                                <!-- btn to hide results -->
+                                <button @click="showIrisData=!showIrisData" class="btn btn-outline-info">
+                                    Ocultar
+                                </button>
+                                <!-- show Iris Data in a table -->
+                                <div class="table-responsive">
+
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Clase</th>
+                                                <th scope="col">Longitud Sepalo</th>
+                                                <th scope="col">Altura Sepalo</th>
+                                                <th scope="col">Logitud Petalo</th>
+                                                <th scope="col">Altura Petalo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- show all rows in the data -->
+                                            <tr
+                                                v-for="{class:clasification,sepalLength,sepalWidth,petalLength,petalWidth},index in irisData">
+                                                <th scope="row">{{index+1}}</th> <!-- id -->
+                                                <td>{{clasification}}</td> <!-- clase -->
+                                                <td>{{sepalLength}}</td><!-- long sepalo -->
+                                                <td>{{sepalWidth}}</td><!-- altu sepalo -->
+                                                <td>{{petalLength}}</td><!-- long petalo -->
+                                                <td>{{petalWidth}}</td><!-- altu petalo -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <br>
+                    <hr><br>
                     <button @click="getIrisData()" type="button">
                         getIrisData
                     </button>
