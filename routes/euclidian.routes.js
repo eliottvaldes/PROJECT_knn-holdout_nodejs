@@ -15,12 +15,12 @@ const router = Router();
 
 
 /** 
- * @route GET api/euclidian/run-model
+ * @route GET api/euclidian/run
  * @desc run the Euclidian model - get the testResults
  * @access Public
  * @returns {object} 200 | 400 - Bad request | 500 - Server error
 */
-router.get('/run-model',
+router.get('/run',
     runEuclidianModel
 );
 
@@ -32,7 +32,7 @@ router.get('/run-model',
  * @param {object} testResults - the testResults to calculate the performance
  * @returns {object} 200 | 400 - Bad request | 500 - Server error
  */
-router.post('/calculate-performance',
+router.post('/performance',
     [
         check('testResults', 'The testResults is required').not().isEmpty(),
         validateFields
@@ -49,7 +49,7 @@ router.post('/calculate-performance',
  * @param {object} predictionData - the predictionData from the request body
  * @returns {object} 200 | 400 - Bad request | 500 - Server error
  */
-router.post('/create-prediction',
+router.post('/prediction',
     [
         check('meanByClass', 'The meanByClass is required').not().isEmpty(),
         validateFields,
