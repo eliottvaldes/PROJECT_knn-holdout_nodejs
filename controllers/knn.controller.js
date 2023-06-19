@@ -150,12 +150,12 @@ const newPrediction = (req = request, res = response) => {
 
     try {
         // call the function to calculate distances        
-        const testResults = getNeighbors(trainingData, prediction, kNeighbors);
+        const predictionResults = getNeighbors(trainingData, prediction, kNeighbors);
 
-        // return the response with the testResults
+        // return the response with the predictionResults
         res.status(200).json({
             ok: true,
-            testResults,
+            predictionResults,
         });
     } catch (error) {
         console.log(error);
@@ -169,7 +169,6 @@ const newPrediction = (req = request, res = response) => {
 }
 
 module.exports = {
-    getNeighbors,
     runKnnModel,
     knnModelPerformance,
     newPrediction,
