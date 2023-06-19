@@ -185,7 +185,10 @@ const newPrediction = (req = request, res = response) => {
     try {
 
         // get the prediction
-        const predictionResults = holdOutMatch(prediction, meanByClass);
+        const predictionResultsAllData = holdOutMatch(prediction, meanByClass);
+
+        // get only the prediction values
+        const predictionResults = predictionResultsAllData[0].prediction[0];
 
         // return the response with the predictionResults
         res.status(200).json({

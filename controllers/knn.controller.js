@@ -150,7 +150,9 @@ const newPrediction = (req = request, res = response) => {
 
     try {
         // call the function to calculate distances        
-        const predictionResults = getNeighbors(trainingData, prediction, kNeighbors);
+        const predictionResultsAllData = getNeighbors(trainingData, prediction, kNeighbors);
+        // get only the prediction values
+        const predictionResults = predictionResultsAllData[0].prediction[0];
 
         // return the response with the predictionResults
         res.status(200).json({
