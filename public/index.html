@@ -59,7 +59,7 @@
                                 <!-- show Iris Data in a table -->
                                 <div class="table-responsive">
 
-                                    <table class="table">
+                                    <table class="table table-hover">
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
@@ -113,6 +113,106 @@
                                             {{classification}}
                                         </li>
                                     </ol>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- obtencion de datos de entrenamiento y datos de prueba -->
+                        <div v-if="irisData.length>0 && uniqueClasses.length>0">
+                            <!-- btn para obtener datos de prueba/entrenamiento -->
+                            <button v-if="trainingData.length==0 && testingData.length==0" @click="separateData()"
+                                class="btn btn-outline-primary">
+                                Obtener datos de prueba o entrenamiento
+                            </button>
+
+                            <!-- si obtenemos resultados los mostramos -->
+                            <div v-if="trainingData.length>0" class="mb-3">
+                                <!-- btn to show training data -->
+                                <div v-if="!showTrainingData">
+                                    <button @click="showTrainingData=!showTrainingData" class="btn btn-outline-primary">
+                                        Mostrar datos de entrenamiento
+                                    </button>
+                                </div>
+                                <!-- btn to hide training data -->
+                                <div v-if="showTrainingData">
+                                    <button @click="showTrainingData=!showTrainingData" class="btn btn-outline-primary">
+                                        Ocultar datos de entrenamiento
+                                    </button>
+
+                                    <!-- show Training Data in a table -->
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Clase</th>
+                                                    <th scope="col">Longitud Sepalo</th>
+                                                    <th scope="col">Altura Sepalo</th>
+                                                    <th scope="col">Logitud Petalo</th>
+                                                    <th scope="col">Altura Petalo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- show all rows in the data -->
+                                                <tr
+                                                    v-for="{class:clasification,sepalLength,sepalWidth,petalLength,petalWidth},index in trainingData">
+                                                    <th scope="row">{{index+1}}</th> <!-- id -->
+                                                    <td>{{clasification}}</td> <!-- clase -->
+                                                    <td>{{sepalLength}}</td><!-- long sepalo -->
+                                                    <td>{{sepalWidth}}</td><!-- altu sepalo -->
+                                                    <td>{{petalLength}}</td><!-- long petalo -->
+                                                    <td>{{petalWidth}}</td><!-- altu petalo -->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <!-- si ibtenemos resultados los mostramos -->
+                            <div v-if="testingData.length>0" class="mb-3">
+                                <!-- btn to show testingData -->
+                                <div v-if="!showTestingData">
+                                    <button @click="showTestingData=!showTestingData" class="btn btn-outline-primary">
+                                        Mostrar datos de prueba
+                                    </button>
+                                </div>
+                                <!-- btn to show testing data -->
+                                <div v-if="showTestingData">
+                                    <button @click="showTestingData=!showTestingData" class="btn btn-outline-primary">
+                                        Ocultar datos de prueba
+                                    </button>
+                                    <!-- show Training Data in a table -->
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Clase</th>
+                                                    <th scope="col">Longitud Sepalo</th>
+                                                    <th scope="col">Altura Sepalo</th>
+                                                    <th scope="col">Logitud Petalo</th>
+                                                    <th scope="col">Altura Petalo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- show all rows in the data -->
+                                                <tr
+                                                    v-for="{class:clasification,sepalLength,sepalWidth,petalLength,petalWidth},index in testingData">
+                                                    <th scope="row">{{index+1}}</th> <!-- id -->
+                                                    <td>{{clasification}}</td> <!-- clase -->
+                                                    <td>{{sepalLength}}</td><!-- long sepalo -->
+                                                    <td>{{sepalWidth}}</td><!-- altu sepalo -->
+                                                    <td>{{petalLength}}</td><!-- long petalo -->
+                                                    <td>{{petalWidth}}</td><!-- altu petalo -->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
                                 </div>
 
                             </div>
