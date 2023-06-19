@@ -132,8 +132,45 @@ const knnModelPerformance = (req = request, res = response) => {
 }
 
 
+// function to create prediction
+const newPrediction = (req = request, res = response) => {
+    // get the trainingData and predictionData from the request body
+    const { trainingData, predictionData } = req.body;
+
+    // define the prediction array
+    const prediction = [
+        {
+            class: 'Unknown',
+            ...predictionData
+        }
+    ]
+
+    // define the number of neighbors
+    const kNeighbors = 1;
+
+    try {
+        // call the function to calculate distances        
+        const testResults = getNeighbors(trainingData, prediction, kNeighbors);
+
+        // return the response with the testResults
+        res.status(200).json({
+            ok: true,
+            testResults,
+        });
+    } catch (error) {
+        console.log(error);
+        // return the response with the error message
+        res.status(500).json({
+            ok: false,
+            msg: 'Error creating a new prediction'
+        });
+    }
+
+}
+
 module.exports = {
     getNeighbors,
     runKnnModel,
     knnModelPerformance,
+    newPrediction,
 }
