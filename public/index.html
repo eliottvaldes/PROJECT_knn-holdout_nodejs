@@ -22,27 +22,26 @@
                 <div id="app">
 
 
+                    <h3 class="mb-5">
+                        Configuaración inicial de entorno
+                    </h3>
+
+
+                    <!-- loader -->
+                    <div v-if="loader">
+                        loading
+                    </div>
+
+
                     <div id="tratamiento-archivo" class="container">
-                        <h3 class="mb-5">
-                            Configuaración inicial de entorno
-                        </h3>
 
                         <!-- mostramos btn para obtener data si aun no la tenemos -->
-                        <button 
-                        v-if="irisData.length==0" 
-                        @click="getIrisData()"
-                        class="btn btn-outline-primary"
-
-                        >
+                        <button v-if="irisData.length==0" @click="getIrisData()" class="btn btn-outline-primary">
                             Obtener data de archivo
                         </button>
 
-                        <!-- loader -->
-                        <div v-if="loadingIrisData">
-                            loading
-                        </div>
-
-                        <div v-if="irisData.length>0">
+                        <!-- mostramos los datos dentro del archivo -->
+                        <div v-if="irisData.length>0" class="mb-3">
 
                             <!-- btn to show data -->
                             <div v-if="!showIrisData">
@@ -90,6 +89,35 @@
                             </div>
                         </div>
 
+                        <!-- obtencion de clases unicas -->
+                        <div v-if="irisData.length>0">
+                            <button v-if="uniqueClasses.length==0" @click="getUniqueClasses()"
+                                class="btn btn-outline-primary">
+                                Obtener clasificaciones de iris únicas
+                            </button>
+
+                            <div v-if="uniqueClasses.length>0" class="mb-3">
+                                <div v-if="!showUniqueClasses">
+                                    <button @click="showUniqueClasses =! showUniqueClasses"
+                                        class="btn btn-outline-primary">
+                                        Ver clases únicas
+                                    </button>
+                                </div>
+                                <div v-if="showUniqueClasses ">
+                                    <button @click="showUniqueClasses =! showUniqueClasses"
+                                        class="btn btn-outline-info">
+                                        Ocultar clases únicas
+                                    </button>
+                                    <ol>
+                                        <li v-for="classification in uniqueClasses">
+                                            {{classification}}
+                                        </li>
+                                    </ol>
+                                </div>
+
+                            </div>
+
+                        </div>
 
                     </div>
 

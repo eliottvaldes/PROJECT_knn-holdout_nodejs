@@ -2,7 +2,8 @@
 const Exam = new Vue({
     el: '#app',
     data: {
-        loadingIrisData: false,
+        loader: false,
+        showUniqueClasses: false,
         showIrisData: false,
         enviroment: null,
         irisData: [],
@@ -41,7 +42,7 @@ const Exam = new Vue({
         },
         // method to get all the iris data
         getIrisData() {
-            this.loadingIrisData = true;
+            this.loader = true;
             axios.get(`${this.enviroment}${this.paths.setup}/all-data`)
                 .then(response => {
                     this.irisData = response.data.irisData;
@@ -51,7 +52,7 @@ const Exam = new Vue({
                     // push the error to the errors array
                     this.errorMessages.push(error)
                 })
-            this.loadingIrisData = false;
+            this.loader = false;
         },
         // method to get the unique classes
         getUniqueClasses() {
