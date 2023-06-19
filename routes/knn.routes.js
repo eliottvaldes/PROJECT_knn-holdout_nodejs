@@ -9,23 +9,23 @@ const router = Router();
 
 
 /** 
- * @route GET api/knn/run-model
+ * @route GET api/knn/run
  * @desc run the KNN(K=1) model - get the testResults
  * @access Public
  * @returns {object} 200 | 400 - Bad request | 500 - Server error
 */
-router.get('/run-model',
+router.get('/run',
     runKnnModel
 );
 
 /**
- * @route POST api/knn/calculate-performance
+ * @route POST api/knn/performance
  * @desc calculate the performance of the KNN(K=1) model
  * @access Public
  * @param {object} testResults - the testResults from the request body
  * @returns {object} 200 | 400 - Bad request | 500 - Server error
  */
-router.post('/calculate-performance',
+router.post('/performance',
     [
         check('testResults', 'The testResults object is required').not().isEmpty(),
         validateFields,
@@ -34,14 +34,14 @@ router.post('/calculate-performance',
 );
 
 /**
- * @route POST api/knn/create-prediction
+ * @route POST api/knn/prediction
  * @desc create a new prediction with the KNN(K=1) model
  * @access Public
  * @param {object} trainingData - the trainingData from the request body
  * @param {object} predictionData - the predictionData from the request body
  * @returns {object} 200 | 400 - Bad request | 500 - Server error
  */
-router.post('/create-prediction',
+router.post('/prediction',
     [
         check('trainingData', 'The trainingData is required').not().isEmpty(),
         validateFields,
