@@ -138,8 +138,39 @@ const runEuclidianModel = async (req = request, res = response) => {
 
 }
 
+// function to calculate the performance of the model
+const euclidianModelPerformance = async (req = request, res = response) => {
+    // get the testResults from the request body
+    const { testResults } = req.body;
 
+    const totalTesting = testResults.length;
+
+    try {
+        // call the function to calculate the correct predictions
+        const correctPredictions = calculateCorrectPredictions(testResults);
+
+        // call the function to calculate the accuracy
+        const accuracy = getAccuracy(correctPredictions, totalTesting);
+
+        // return the response with the accuracy
+        res.status(200).json({
+            ok: true,
+            totalTesting,
+            correctPredictions,
+            accuracy,
+        });
+
+    } catch (error) {
+        console.log(error);
+        // return the response with the error message
+        res.status(500).json({
+            ok: false,
+            msg: 'Error calculating the performance of the KNN(K=1) model'
+        });
+    }
+}
 
 module.exports = {
     runEuclidianModel,
+    euclidianModelPerformance,
 }
