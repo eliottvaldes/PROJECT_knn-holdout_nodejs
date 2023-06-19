@@ -31,9 +31,14 @@ const readFile = async (fullPath) => {
 }
 
 
+// function to get the UNIQUE classes of the all data
+const getUniqueClasses = (irisData) => [...new Set(irisData.map(item => item.class))];
+
+
+
 
 module.exports = {
     readFile,
-    
+    getUniqueClasses,
     
 }
