@@ -1,5 +1,17 @@
+// require request and response from express module 
+const { request, response } = require("express");
+
 // require the helper functions
+const { readFile, getUniqueClasses, separateData } = require('../helpers/datasetTreatment');
 const { calculateEuclideanDistance } = require('../helpers/euclidianDistance');
+const { calculateCorrectPredictions, getAccuracy } = require('../helpers/calculateResults');
+
+// Define the fileName and the path to get the data
+let fileName = '';
+fileName = '/../assets/files/iris.data';
+fileName = '/../assets/files/iris-test.data';
+const fullPath = __dirname + fileName;
+
 
 
 // function to calculate the mean of the training data by class
@@ -87,7 +99,47 @@ const holdOutMatch = (testData, meanByClass) => {
 }
 
 
+// function to run the euclidian model
+const runEuclidianModel = async (req = request, res = response) => {
+
+    try {
+        // read the content of the file
+        const irisData = await readFile(fullPath);
+
+        // call the function that gives the uniques classes of the all data
+        const uniqueClasses = getUniqueClasses(irisData);
+
+        // call the function to separate the irisData in arrays: training and test data
+        const { trainingData, testData } = separateData(irisData, uniqueClasses);
+
+        // calculate the mean of the training data by class
+        const meanByClass = calculateMeanByClass(uniqueClasses, trainingData);
+
+        // traing the model
+        const testResults = holdOutMatch(testData, meanByClass);
+
+        // return the response with the testResults
+        return res.status(200).json({
+            ok: true,
+            trainingData,
+            testData,
+            testResults,
+        });
+
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error running the Euclidian model'
+        });
+    }
+
+
+}
+
+
+
 module.exports = {
-    calculateMeanByClass,
-    holdOutMatch,
+    runEuclidianModel,
 }
