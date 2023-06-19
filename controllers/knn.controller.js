@@ -3,13 +3,14 @@ const { request, response } = require("express");
 
 const { readFile, getUniqueClasses, separateData } = require('../helpers/datasetTreatment');
 const { calculateEuclideanDistance } = require('../helpers/euclidianDistance');
-
+const { calculateCorrectPredictions, getAccuracy } = require('../helpers/calculateResults');
 
 // Define the fileName and the path to get the data
 let fileName = '';
 fileName = '/../assets/files/iris.data';
 fileName = '/../assets/files/iris-test.data';
 const fullPath = __dirname + fileName;
+
 
 
 // funcion to calculate distances of each test object to the each training object
@@ -97,8 +98,42 @@ const runKnnModel = async (req = request, res = response) => {
 
 }
 
+// function to calculate the performance of the KNN model
+const knnModelPerformance = (req = request, res = response) => {
+    // get the testResults from the request body
+    const { testResults } = req.body;
+
+    const totalTesting = testResults.length;
+
+    try {
+        // call the function to calculate the correct predictions
+        const correctPredictions = calculateCorrectPredictions(testResults);
+
+        // call the function to calculate the accuracy
+        const accuracy = getAccuracy(correctPredictions, totalTesting);
+
+        // return the response with the accuracy
+        res.status(200).json({
+            ok: true,
+            totalTesting,
+            correctPredictions,
+            accuracy,
+        });
+
+    } catch (error) {
+        console.log(error);
+        // return the response with the error message
+        res.status(500).json({
+            ok: false,
+            msg: 'Error calculating the performance of the KNN(K=1) model'
+        });
+    }
+
+}
+
 
 module.exports = {
     getNeighbors,
-    runKnnModel,    
+    runKnnModel,
+    knnModelPerformance,
 }
