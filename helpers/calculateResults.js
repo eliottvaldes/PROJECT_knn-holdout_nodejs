@@ -24,7 +24,7 @@ const getAccuracy = (correctPredictions, testDataLength) => {
 }
 
 
-module.exprots = {
+module.exports = {
     calculateCorrectPredictions,
     getAccuracy,
 }
