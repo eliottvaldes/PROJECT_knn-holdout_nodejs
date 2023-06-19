@@ -10,6 +10,7 @@ class Server {
         // define the paths for routes
         this.paths = {
             setup:   '/api/setup',
+            knn:     '/api/knn',
         }
 
         // run the middlewares and routes
@@ -29,6 +30,7 @@ class Server {
     routes() {
         // define the routes to use each path value
         this.app.use(this.paths.setup, require('../routes/setup.routes'));
+        this.app.use(this.paths.knn, require('../routes/knn.routes'));
 
         // 404 error
         this.app.use('*', (req, res) => {
