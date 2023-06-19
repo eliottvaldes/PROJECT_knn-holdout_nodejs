@@ -121,8 +121,7 @@ const runEuclidianModel = async (req = request, res = response) => {
         // return the response with the testResults
         return res.status(200).json({
             ok: true,
-            trainingData,
-            testData,
+            meanByClass,
             testResults,
         });
 
@@ -170,7 +169,44 @@ const euclidianModelPerformance = async (req = request, res = response) => {
     }
 }
 
+// function to create prediction
+const newPrediction = (req = request, res = response) => {
+    // get the trainingData and predictionData from the request body
+    const { predictionData, meanByClass } = req.body;
+
+    // define the prediction array
+    const prediction = [
+        {
+            class: 'Unknown',
+            ...predictionData
+        }
+    ]
+
+    try {
+
+        // get the prediction
+        const predictionResults = holdOutMatch(prediction, meanByClass);
+
+        // return the response with the predictionResults
+        res.status(200).json({
+            ok: true,
+            predictionResults,
+        });
+
+    } catch (error) {
+        console.log(error);
+        // return the response with the error message
+        res.status(500).json({
+            ok: false,
+            msg: 'Error creating a new prediction'
+        });
+    }
+
+}
+
+
 module.exports = {
     runEuclidianModel,
     euclidianModelPerformance,
+    newPrediction,
 }
