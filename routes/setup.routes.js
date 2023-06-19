@@ -25,7 +25,7 @@ router.get('/all-data',
  * @param {object} irisData - the data from the dataset file
  * @returns {object} 200 | 400 - Bad request | 500 - Server error
  */
-router.get('/unique-classes',
+router.post('/unique-classes',
     [
         check('irisData', 'The irisData is required').not().isEmpty(),
         validateFields
