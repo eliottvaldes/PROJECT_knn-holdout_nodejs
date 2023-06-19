@@ -66,7 +66,36 @@ const getClasses = async (req = request, res = response) => {
 }
 
 
+const getTainingAndTestingData = async (req = request, res = response) => {
+
+    // get the irisData values from the request body in a property called irisData
+    const { irisData, uniqueClasses } = req.body;
+
+    try {
+        // get the training and testing data using the helpers
+        const { trainingData, testData } = await separateData(irisData, uniqueClasses);
+
+        // return the response with the training and testing data
+        res.status(200).json({
+            ok: true,
+            trainingData,
+            testData,
+        });
+
+    } catch (error) {
+        console.log(error);
+        // return the response with the error message
+        res.status(500).json({
+            ok: false,
+            msg: 'Error getting the training and testing data'
+        });
+    }
+
+}
+
+
 module.exports = {
     getAllData,
     getClasses,
+    getTainingAndTestingData,
 }
