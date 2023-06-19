@@ -1,5 +1,15 @@
-// require the helper functions
+// require request and response from express module 
+const { request, response } = require("express");
+
+const { readFile, getUniqueClasses, separateData } = require('../helpers/datasetTreatment');
 const { calculateEuclideanDistance } = require('../helpers/euclidianDistance');
+
+
+// Define the fileName and the path to get the data
+let fileName = '';
+fileName = '/../assets/files/iris.data';
+fileName = '/../assets/files/iris-test.data';
+const fullPath = __dirname + fileName;
 
 
 // funcion to calculate distances of each test object to the each training object
@@ -42,7 +52,53 @@ const getNeighbors = (trainingData, testData, kNeighbors = 1) => {
     return dataDistances;
 }
 
+// function to run the KNN model - trining and test data
+const runKnnModel = async (req = request, res = response) => {
+
+    try {
+
+        // read the content of the file
+        const irisData = await readFile(fullPath);
+
+        // call the function that gives the uniques classes of the all data
+        const uniqueClasses = getUniqueClasses(irisData);
+
+        // call the function to separate the irisData in arrays: training and test data
+        const { trainingData, testData } = separateData(irisData, uniqueClasses);
+
+        // define the number of neighbors
+        const kNeighbors = 1;
+
+        // call the function to calculate distances        
+        const testResults = getNeighbors(trainingData, testData, kNeighbors);
+
+
+        // return the response with the testResults
+        res.status(200).json({
+            ok: true,
+            trainingData,
+            testData,
+            testResults,
+        });
+
+
+
+    } catch (error) {
+        console.log(error);
+        // return the response with the error message
+        res.status(500).json({
+            ok: false,
+            msg: 'Error running the KNN(K=1) model'
+        });
+    }
+
+
+
+
+}
+
 
 module.exports = {
-    getNeighbors,    
+    getNeighbors,
+    runKnnModel,    
 }
