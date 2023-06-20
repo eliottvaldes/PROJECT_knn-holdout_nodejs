@@ -10,6 +10,8 @@
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- sweetalert cdn -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -22,15 +24,9 @@
                 <div id="app">
 
 
-                    <h3 class="mb-5">
+                    <h3 class="mb-3">
                         Configuaración inicial de entorno
-                    </h3>
-
-
-                    <!-- loader -->
-                    <div v-if="loader">
-                        loading
-                    </div>
+                    </h3>              
 
 
                     <div id="tratamiento-archivo">
@@ -45,16 +41,16 @@
 
                             <!-- btn to show data -->
                             <div v-if="!showIrisData">
-                                <button @click="showIrisData=!showIrisData" class="btn btn-outline-primary">
-                                    Ver todos los datos
+                                <button @click="showIrisData=!showIrisData" class="btn btn-outline-success">
+                                    Mostrar todos los datos
                                 </button>
                             </div>
 
 
                             <div v-if="showIrisData">
                                 <!-- btn to hide results -->
-                                <button @click="showIrisData=!showIrisData" class="btn btn-outline-info">
-                                    Ocultar
+                                <button @click="showIrisData=!showIrisData" class="btn btn-warning">
+                                    Ocultar datos
                                 </button>
                                 <!-- show Iris Data in a table -->
                                 <div class="table-responsive">
@@ -99,14 +95,14 @@
                             <div v-if="uniqueClasses.length>0" class="mb-3">
                                 <div v-if="!showUniqueClasses">
                                     <button @click="showUniqueClasses =! showUniqueClasses"
-                                        class="btn btn-outline-primary">
-                                        Ver clases únicas
+                                        class="btn btn-outline-success">
+                                        Mostrar clasificaciones únicas
                                     </button>
                                 </div>
                                 <div v-if="showUniqueClasses ">
                                     <button @click="showUniqueClasses =! showUniqueClasses"
-                                        class="btn btn-outline-info">
-                                        Ocultar clases únicas
+                                        class="btn btn-warning">
+                                        Ocultar clasificaciones únicas
                                     </button>
                                     <ol>
                                         <li v-for="classification in uniqueClasses">
@@ -131,13 +127,13 @@
                             <div v-if="trainingData.length>0" class="mb-3">
                                 <!-- btn to show training data -->
                                 <div v-if="!showTrainingData">
-                                    <button @click="showTrainingData=!showTrainingData" class="btn btn-outline-primary">
+                                    <button @click="showTrainingData=!showTrainingData" class="btn btn-outline-success">
                                         Mostrar datos de entrenamiento
                                     </button>
                                 </div>
                                 <!-- btn to hide training data -->
                                 <div v-if="showTrainingData">
-                                    <button @click="showTrainingData=!showTrainingData" class="btn btn-outline-primary">
+                                    <button @click="showTrainingData=!showTrainingData" class="btn btn-warning">
                                         Ocultar datos de entrenamiento
                                     </button>
 
@@ -176,13 +172,13 @@
                             <div v-if="testingData.length>0" class="mb-3">
                                 <!-- btn to show testingData -->
                                 <div v-if="!showTestingData">
-                                    <button @click="showTestingData=!showTestingData" class="btn btn-outline-primary">
+                                    <button @click="showTestingData=!showTestingData" class="btn btn-outline-success">
                                         Mostrar datos de prueba
                                     </button>
                                 </div>
                                 <!-- btn to show testing data -->
                                 <div v-if="showTestingData">
-                                    <button @click="showTestingData=!showTestingData" class="btn btn-outline-primary">
+                                    <button @click="showTestingData=!showTestingData" class="btn btn-warning">
                                         Ocultar datos de prueba
                                     </button>
                                     <!-- show Training Data in a table -->
@@ -237,13 +233,13 @@
                         <div v-if="testResultsKnn.length>0" class="mb-3">
                             <!-- btn to show testResultsKnn -->
                             <div v-if="!showKnnRun">
-                                <button @click="showKnnRun=!showKnnRun" class="btn btn-outline-warning">
+                                <button @click="showKnnRun=!showKnnRun" class="btn btn-outline-success">
                                     Mostar resultados de KNN
                                 </button>
                             </div>
                             <!-- btn to hide testResultsKnn -->
                             <div v-if="showKnnRun">
-                                <button @click="showKnnRun=!showKnnRun" class="btn btn-outline-warning">
+                                <button @click="showKnnRun=!showKnnRun" class="btn btn-warning">
                                     Ocultar resultados de KNN
                                 </button>
 
@@ -281,8 +277,8 @@
                         <!-- obtencion de rendimiento de KNN model -->
                         <div v-if="testResultsKnn.length>0" class="mb-3">
                             <button v-if="performanceKnn.totalTesting === 0" @click="calculateKNNPerformance()"
-                                class="btn btn-outline-warning">
-                                Medir rendimiento de modelo KNN
+                                class="btn btn-outline-primary">
+                                Obtener rendimiento de modelo KNN
                             </button>
 
 
@@ -290,20 +286,20 @@
                                 <!-- btn tpo show knn performanceKnn -->
                                 <div v-if="!showPerformanceKnn">
                                     <button @click="showPerformanceKnn=!showPerformanceKnn"
-                                        class="btn btn-outline-warning">
-                                        Ver rendimiento de modelo
+                                        class="btn btn-outline-success">
+                                        Mostrar rendimiento de modelo
                                     </button>
                                 </div>
                                 <!-- btn to hide knn performanceKnn -->
                                 <div v-if="showPerformanceKnn">
                                     <button @click="showPerformanceKnn=!showPerformanceKnn"
-                                        class="btn btn-outline-warning">
+                                        class="btn btn-warning">
                                         Ocultar rendimiento de modelo
                                     </button>
                                     <ul>
-                                        <li>Cantidad Total de datos de prueba: {{performanceKnn.totalTesting}}</li>
-                                        <li>Cantidada Total de aciertos: {{performanceKnn.correctPredictions}} </li>
-                                        <li>Rendimiento: {{performanceKnn.accuracy}}</li>
+                                        <li>Total de datos de prueba: {{performanceKnn.totalTesting}}</li>
+                                        <li>Total de aciertos: {{performanceKnn.correctPredictions}} </li>
+                                        <li class="text-bg-dark">Rendimiento: {{performanceKnn.accuracy}}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -314,11 +310,11 @@
                         <!-- crear prediccion de modelo -->
                         <div v-if="testResultsKnn.length>0">
                             <button v-if="!showFormPrediction" @click="showFormPrediction=!showFormPrediction"
-                                class="btn btn-outline-warning">
-                                Nueva predicción
+                                class="btn btn-outline-success">
+                                Nueva clasificación
                             </button>
                             <div v-if="showFormPrediction">
-                                <button @click="showFormPrediction=!showFormPrediction" class="btn btn-outline-warning">
+                                <button @click="showFormPrediction=!showFormPrediction" class="btn btn-outline-danger">
                                     Cancelar predicción
                                 </button>
 
@@ -367,7 +363,7 @@
                                         </div>
 
                                         <button v-if="predictionResultsKnn.length==0" @click="predictKNN()"
-                                            class="btn btn-outline-success float-end">
+                                            class="btn btn-outline-primary float-end">
                                             Obtener clasificación
                                         </button>
 
@@ -385,7 +381,7 @@
                                             <!-- btn to create new prediction -->
                                             <button @click="clearPredictionKnn()"
                                                 class="btn btn-outline-warning float-end mt-2">
-                                                Nueva predicción
+                                                Nueva clasificación
                                             </button>
                                         </div>
 
@@ -419,13 +415,13 @@
                         <div v-if="testResultsEuclidian.length>0" class="mb-3">
                             <!-- btn to show testResultsEuclidian -->
                             <div v-if="!showEuclidianRun">
-                                <button @click="showEuclidianRun=!showEuclidianRun" class="btn btn-outline-warning">
+                                <button @click="showEuclidianRun=!showEuclidianRun" class="btn btn-outline-success">
                                     Mostar resultados de clasificador Euclidiano
                                 </button>
                             </div>
                             <!-- btn to hide testResultsEuclidian -->
                             <div v-if="showEuclidianRun">
-                                <button @click="showEuclidianRun=!showEuclidianRun" class="btn btn-outline-warning">
+                                <button @click="showEuclidianRun=!showEuclidianRun" class="btn btn-warning">
                                     Ocultar resultados de clasificador Euclidiano
                                 </button>
 
@@ -464,8 +460,8 @@
                         <!-- obtencion de rendimiento de KNN model -->
                         <div v-if="testResultsEuclidian.length>0" class="mb-3">
                             <button v-if="performanceEuclidian.totalTesting === 0"
-                                @click="calculateEuclidianPerformance()" class="btn btn-outline-warning">
-                                Medir rendimiento de modelo Euclidiano
+                                @click="calculateEuclidianPerformance()" class="btn btn-outline-primary">
+                                Obtener rendimiento de modelo Euclidiano
                             </button>
 
 
@@ -473,20 +469,20 @@
                                 <!-- btn tpo show knn performanceEuclidian -->
                                 <div v-if="!showPerformanceEuclidian">
                                     <button @click="showPerformanceEuclidian=!showPerformanceEuclidian"
-                                        class="btn btn-outline-warning">
-                                        Ver rendimiento de modelo
+                                        class="btn btn-outline-success">
+                                        Mostrar rendimiento de modelo
                                     </button>
                                 </div>
                                 <!-- btn to hide knn performanceEuclidian -->
                                 <div v-if="showPerformanceEuclidian">
                                     <button @click="showPerformanceEuclidian=!showPerformanceEuclidian"
-                                        class="btn btn-outline-warning">
+                                        class="btn btn-warning">
                                         Ocultar rendimiento de modelo
                                     </button>
                                     <ul>
-                                        <li>Cantidad Total de datos de prueba: {{performanceEuclidian.totalTesting}}
+                                        <li>Total de datos de prueba: {{performanceEuclidian.totalTesting}}
                                         </li>
-                                        <li>Cantidada Total de aciertos: {{performanceEuclidian.correctPredictions}}
+                                        <li>Total de aciertos: {{performanceEuclidian.correctPredictions}}
                                         </li>
                                         <li>Rendimiento: {{performanceEuclidian.accuracy}}</li>
                                     </ul>
@@ -500,12 +496,12 @@
                         <div v-if="testResultsEuclidian.length>0">
                             <button v-if="!showFormPredictionEuclidian"
                                 @click="showFormPredictionEuclidian=!showFormPredictionEuclidian"
-                                class="btn btn-outline-warning">
-                                Nueva predicción
+                                class="btn btn-outline-success">
+                                Nueva clasificación
                             </button>
                             <div v-if="showFormPredictionEuclidian">
                                 <button @click="showFormPredictionEuclidian=!showFormPredictionEuclidian"
-                                    class="btn btn-outline-warning">
+                                    class="btn btn-outline-danger">
                                     Cancelar predicción
                                 </button>
 
@@ -554,7 +550,7 @@
                                         </div>
 
                                         <button v-if="predictionResultsEuclidian.length==0" @click="predictEuclidian()"
-                                            class="btn btn-outline-success float-end">
+                                            class="btn btn-outline-primary float-end">
                                             Obtener clasificación
                                         </button>
 
@@ -573,7 +569,7 @@
                                             <!-- btn to create new prediction -->
                                             <button @click="clearPredictionEuclidian()"
                                                 class="btn btn-outline-warning float-end mt-2">
-                                                Nueva predicción
+                                                Nueva clasificación
                                             </button>
                                         </div>
 
