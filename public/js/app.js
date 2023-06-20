@@ -11,6 +11,9 @@ const Exam = new Vue({
         showPerformanceKnn: false,
         showFormPrediction: false,
         predictionFormDisabled: false,
+        showEuclidianRun: false,
+        showPerformanceEuclidian: false,
+        showFormPredictionEuclidian: false,
         enviroment: null,
         irisData: [],
         uniqueClasses: [],
@@ -18,6 +21,7 @@ const Exam = new Vue({
         trainingData: [],
         testingData: [],
         testResults: [],
+        testResultsEuclidian: [],
         performance: {
             totalTesting: 0,
             correctPredictions: 0,

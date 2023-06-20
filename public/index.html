@@ -383,7 +383,8 @@
                                                 <div class="col">Distancia: {{predictionResults.distance}} </div>
                                             </div>
                                             <!-- btn to create new prediction -->
-                                            <button @click="clearPrediction()" class="btn btn-outline-warning float-end mt-2">
+                                            <button @click="clearPrediction()"
+                                                class="btn btn-outline-warning float-end mt-2">
                                                 Nueva predicción
                                             </button>
                                         </div>
@@ -401,23 +402,188 @@
 
                     </div>
 
+                    <div id="euclidian-model"
+                        v-if="irisData.length>0 && uniqueClasses.length>0 && trainingData.length>0 && testingData.length>0">
 
-                    <br>
-                    <hr><br>
-                    <button @click="runEuclidian()" type="button">
-                        runEuclidian
-                    </button>
-                    <br>
+                        <h3 class="mt-5 mb-3">
+                            Modelo Euclidiano
+                        </h3>
 
-                    <button @click="calculateEuclidianPerformance()" type="button">
-                        calculateEuclidianPerformance
-                    </button>
-                    <br>
 
-                    <button @click="predictEuclidian()" type="button">
-                        predictEuclidian
-                    </button>
-                    <br>
+                        <button v-if="testResults.length==0" @click="runEuclidian()" class="btn btn-outline-dark">
+                            Ejecutar modelo Euclidiano
+                        </button>
+
+                        <!-- in case there results, show it -->
+                        <div v-if="testResults.length>0" class="mb-3">
+                            <!-- btn to show testResults -->
+                            <div v-if="!showEuclidianRun">
+                                <button @click="showEuclidianRun=!showEuclidianRun" class="btn btn-outline-warning">
+                                    Mostar resultados de clasificador Euclidiano
+                                </button>
+                            </div>
+                            <!-- btn to hide testResults -->
+                            <div v-if="showEuclidianRun">
+                                <button @click="showEuclidianRun=!showEuclidianRun" class="btn btn-outline-warning">
+                                    Ocultar resultados de clasificador Euclidiano
+                                </button>
+
+                                <!-- show Training Data in a table -->
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Clase Real</th>
+                                                <th scope="col">Clase Predicha</th>
+                                                <th scope="col">Distancia Obtenida</th>
+                                                <th scope="col">Acierto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- show all rows in the data -->
+                                            <tr v-for="{class : classification, prediction},index in testResults">
+                                                <th scope="row">{{index+1}}</th> <!-- id -->
+                                                <td>{{classification}}</td> <!-- clase real -->
+                                                <td>{{prediction[0].class}}</td><!-- clase predicha -->
+                                                <td>{{prediction[0].distance}}</td><!-- distancia obtenida -->
+                                                <td>
+                                                    <button
+                                                        :class="(classification==prediction[0].class)? 'btn btn-success' : 'btn btn-danger'">
+                                                    </button>
+                                                </td><!-- acierto -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- obtencion de rendimiento de KNN model -->
+                        <div v-if="testResults.length>0" class="mb-3">
+                            <button v-if="performance.totalTesting === 0" @click="calculateEuclidianPerformance()"
+                                class="btn btn-outline-warning">
+                                Medir rendimiento de modelo Euclidiano
+                            </button>
+
+
+                            <div v-if="testResults.length>0 && performance.totalTesting>0">
+                                <!-- btn tpo show knn performance -->
+                                <div v-if="!showPerformanceEuclidian">
+                                    <button @click="showPerformanceEuclidian=!showPerformanceEuclidian"
+                                        class="btn btn-outline-warning">
+                                        Ver rendimiento de modelo
+                                    </button>
+                                </div>
+                                <!-- btn to hide knn performance -->
+                                <div v-if="showPerformanceEuclidian">
+                                    <button @click="showPerformanceEuclidian=!showPerformanceEuclidian"
+                                        class="btn btn-outline-warning">
+                                        Ocultar rendimiento de modelo
+                                    </button>
+                                    <ul>
+                                        <li>Cantidad Total de datos de prueba: {{performance.totalTesting}}</li>
+                                        <li>Cantidada Total de aciertos: {{performance.correctPredictions}} </li>
+                                        <li>Rendimiento: {{performance.accuracy}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <!-- crear prediccion de modelo -->
+                        <div v-if="testResults.length>0">
+                            <button v-if="!showFormPredictionEuclidian"
+                                @click="showFormPredictionEuclidian=!showFormPredictionEuclidian"
+                                class="btn btn-outline-warning">
+                                Nueva predicción
+                            </button>
+                            <div v-if="showFormPredictionEuclidian">
+                                <button @click="showFormPredictionEuclidian=!showFormPredictionEuclidian"
+                                    class="btn btn-outline-warning">
+                                    Cancelar predicción
+                                </button>
+
+                                <div class="card my-3">
+                                    <div class="card-header">Ingresa los datos para la nueva prediccion</div>
+                                    <div class="card-body">
+                                        <div class="mb-3 row">
+                                            <label for="long-sepalo" class="col-sm-2 col-form-label">
+                                                Logitud Sepalo
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input v-model="predictionData.sepalLength"
+                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
+                                                    id="long-sepalo" inputmode="numeric">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label for="altura-sepalo" class="col-sm-2 col-form-label">
+                                                Altura Sepalo
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input v-model="predictionData.sepalWidth"
+                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
+                                                    id="altura-sepalo" inputmode="numeric">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label for="long-petalo" class="col-sm-2 col-form-label">
+                                                Logitud Petalo
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input v-model="predictionData.petalLength"
+                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
+                                                    id="long-petalo" inputmode="numeric">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label for="altura-petalo" class="col-sm-2 col-form-label">
+                                                Altura Petalo
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input v-model="predictionData.petalWidth"
+                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
+                                                    id="altura-petalo" inputmode="numeric">
+                                            </div>
+                                        </div>
+
+                                        <button v-if="predictionResults.length==0" @click="predictEuclidian()"
+                                            class="btn btn-outline-success float-end">
+                                            Obtener clasificación
+                                        </button>
+
+
+                                        <div v-if="predictionResults.length!=0" class="container">
+                                            <!-- show prediction results -->
+                                            <div class="row justify-content-center align-items-center g-2">
+                                                <div class="col-12">
+                                                    <img :src="'/assets/img/'+predictionResults.class+'.jpg'"
+                                                        :alt="predictionResults.class" width="100%">
+                                                </div>
+                                                <div class="col">Clase: {{predictionResults.class}}</div>
+                                                <div class="col">Distancia: {{predictionResults.distance}} </div>
+                                            </div>
+                                            <!-- btn to create new prediction -->
+                                            <button @click="clearPrediction()"
+                                                class="btn btn-outline-warning float-end mt-2">
+                                                Nueva predicción
+                                            </button>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
 
 
                 </div>
