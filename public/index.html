@@ -311,26 +311,96 @@
                         </div>
 
 
+                        <!-- crear prediccion de modelo -->
+                        <div v-if="testResults.length>0">
+                            <button v-if="!showFormPrediction" @click="showFormPrediction=!showFormPrediction"
+                                class="btn btn-outline-warning">
+                                Nueva predicción
+                            </button>
+                            <div v-if="showFormPrediction">
+                                <button @click="showFormPrediction=!showFormPrediction" class="btn btn-outline-warning">
+                                    Cancelar predicción
+                                </button>
+
+                                <div class="card my-3">
+                                    <div class="card-header">Ingresa los datos para la nueva prediccion</div>
+                                    <div class="card-body">
+                                        <div class="mb-3 row">
+                                            <label for="long-sepalo" class="col-sm-2 col-form-label">
+                                                Logitud Sepalo
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input v-model="predictionData.sepalLength"
+                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
+                                                    id="long-sepalo" inputmode="numeric">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label for="altura-sepalo" class="col-sm-2 col-form-label">
+                                                Altura Sepalo
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input v-model="predictionData.sepalWidth"
+                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
+                                                    id="altura-sepalo" inputmode="numeric">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label for="long-petalo" class="col-sm-2 col-form-label">
+                                                Logitud Petalo
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input v-model="predictionData.petalLength"
+                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
+                                                    id="long-petalo" inputmode="numeric">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 row">
+                                            <label for="altura-petalo" class="col-sm-2 col-form-label">
+                                                Altura Petalo
+                                            </label>
+                                            <div class="col-sm-10">
+                                                <input v-model="predictionData.petalWidth"
+                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
+                                                    id="altura-petalo" inputmode="numeric">
+                                            </div>
+                                        </div>
+
+                                        <button v-if="predictionResults.length==0" @click="predictKNN()"
+                                            class="btn btn-outline-success float-end">
+                                            Obtener clasificación
+                                        </button>
+
+
+                                        <div v-if="predictionResults.length!=0" class="container">
+                                            <!-- show prediction results -->
+                                            <div class="row justify-content-center align-items-center g-2">
+                                                <div class="col-12">
+                                                    <img :src="'/assets/img/'+predictionResults.class+'.jpg'"
+                                                        :alt="predictionResults.class" width="100%">
+                                                </div>
+                                                <div class="col">Clase: {{predictionResults.class}}</div>
+                                                <div class="col">Distancia: {{predictionResults.distance}} </div>
+                                            </div>
+                                            <!-- btn to create new prediction -->
+                                            <button @click="clearPrediction()" class="btn btn-outline-warning float-end mt-2">
+                                                Nueva predicción
+                                            </button>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
 
                     </div>
 
-
-                    <br>
-                    <hr><br>
-                    <button @click="runKnn()" type="button">
-                        runKnn
-                    </button>
-                    <br>
-
-                    <button @click="calculateKNNPerformance()" type="button">
-                        calculateKNNPerformance
-                    </button>
-                    <br>
-
-                    <button @click="predictKNN()" type="button">
-                        predictKNN
-                    </button>
-                    <br>
 
                     <br>
                     <hr><br>

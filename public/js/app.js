@@ -9,6 +9,8 @@ const Exam = new Vue({
         showTestingData: false,
         showKnnRun: false,
         showPerformanceKnn: false,
+        showFormPrediction: false,
+        predictionFormDisabled: false,
         enviroment: null,
         irisData: [],
         uniqueClasses: [],
@@ -145,6 +147,7 @@ const Exam = new Vue({
         // require the trainingData as a parameter called 'trainingData'
         // the format of the data sent to the server is JSON
         predictKNN() {
+            this.predictionFormDisabled = true;
             axios.post(`${this.enviroment}${this.paths.knn}/prediction`, {
                 predictionData: this.predictionData,
                 trainingData: this.trainingData
@@ -220,6 +223,17 @@ const Exam = new Vue({
                 .catch(error => {
                     this.errorMessages.push(error)
                 })
+        },
+        // function to crear the prediction form and the prediction results
+        clearPrediction() {
+            this.predictionData = {
+                sepalLength: 0,
+                sepalWidth: 0,
+                petalLength: 0,
+                petalWidth: 0,
+            };
+            this.predictionResults = [];
+            this.predictionFormDisabled = false;
         },
 
     },
