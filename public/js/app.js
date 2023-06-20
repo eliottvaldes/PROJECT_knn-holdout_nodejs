@@ -7,6 +7,7 @@ const Exam = new Vue({
         showIrisData: false,
         showTrainingData: false,
         showTestingData: false,
+        showKnnRun: false,
         enviroment: null,
         irisData: [],
         uniqueClasses: [],

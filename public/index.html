@@ -33,7 +33,7 @@
                     </div>
 
 
-                    <div id="tratamiento-archivo" class="container">
+                    <div id="tratamiento-archivo">
 
                         <!-- mostramos btn para obtener data si aun no la tenemos -->
                         <button v-if="irisData.length==0" @click="getIrisData()" class="btn btn-outline-primary">
@@ -221,22 +221,67 @@
 
                     </div>
 
-                    <br>
-                    <hr><br>
-                    <button @click="getIrisData()" type="button">
-                        getIrisData
-                    </button>
-                    <br>
+                    <div id="knn-model"
+                        v-if="irisData.length>0 && uniqueClasses.length>0 && trainingData.length>0 && testingData.length>0">
 
-                    <button @click="getUniqueClasses()" type="button">
-                        getUniqueClasses
-                    </button>
-                    <br>
+                        <h3 class="mt-5 mb-3">
+                            Modelo Knn con K=1
+                        </h3>
 
-                    <button @click="separateData()" type="button">
-                        separateData
-                    </button>
-                    <br>
+
+                        <button v-if="testResults.length==0" @click="runKnn()" class="btn btn-outline-dark">
+                            Ejecutar KNN model
+                        </button>
+
+                        <!-- in case there results, show it -->
+                        <div v-if="testResults.length>0">
+                            <!-- btn to show testResults -->
+                            <div v-if="!showKnnRun">
+                                <button @click="showKnnRun=!showKnnRun" class="btn btn-outline-warning">
+                                    Mostar resultados de KNN
+                                </button>
+                            </div>
+                            <!-- btn to hide testResults -->
+                            <div v-if="showKnnRun">
+                                <button @click="showKnnRun=!showKnnRun" class="btn btn-outline-warning">
+                                    Ocultar resultados de KNN
+                                </button>
+
+                                <!-- show Training Data in a table -->
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Clase Real</th>
+                                                <th scope="col">Clase Predicha</th>
+                                                <th scope="col">Distancia Obtenida</th>
+                                                <th scope="col">Acierto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- show all rows in the data -->
+                                            <tr v-for="{class : classification, prediction},index in testResults">
+                                                <th scope="row">{{index+1}}</th> <!-- id -->
+                                                <td>{{classification}}</td> <!-- clase real -->
+                                                <td>{{prediction[0].class}}</td><!-- clase predicha -->
+                                                <td>{{prediction[0].distance}}</td><!-- distancia obtenida -->
+                                                <td>
+                                                    <button
+                                                        :class="(classification==prediction[0].class)? 'btn btn-success' : 'btn btn-danger'">                                                        
+                                                    </button>
+                                                </td><!-- acierto -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
 
                     <br>
                     <hr><br>
