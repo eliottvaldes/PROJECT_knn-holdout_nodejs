@@ -26,7 +26,7 @@
 
                     <h3 class="mb-3">
                         Configuaración inicial de entorno
-                    </h3>              
+                    </h3>
 
 
                     <div id="tratamiento-archivo">
@@ -100,8 +100,7 @@
                                     </button>
                                 </div>
                                 <div v-if="showUniqueClasses ">
-                                    <button @click="showUniqueClasses =! showUniqueClasses"
-                                        class="btn btn-warning">
+                                    <button @click="showUniqueClasses =! showUniqueClasses" class="btn btn-warning">
                                         Ocultar clasificaciones únicas
                                     </button>
                                     <ol>
@@ -217,10 +216,31 @@
 
                     </div>
 
-                    <div id="knn-model"
+                    <!-- model selection -->
+                    <!-- create a select field using v-model to select model -->
+                    <div v-if="uniqueClasses.length>0 && trainingData.length>0 && testingData.length>0">
+                        <!-- hr separator -->
+                        <hr class="mt-5 mb-3">
+
+                        <h3 class="mb-3">
+                            Selección de modelo
+                        </h3>
+                        <select v-model="modelSelected" class="form-control">
+                            <option value="choose" selected disabled>Seleccione un modelo</option>
+                            <option value="knn">Clasificación KNN (K=1)</option>
+                            <option value="euclidian">Clasificación Euclidiana</option>
+                        </select>
+
+                        <!-- hr separator -->
+                        <hr class="my-3">
+                    </div>
+
+
+                    <!-- show knn data model -->
+                    <div v-if="modelSelected=='knn'" id="knn-model"
                         v-if="irisData.length>0 && uniqueClasses.length>0 && trainingData.length>0 && testingData.length>0">
 
-                        <h3 class="mt-5 mb-3">
+                        <h3 class="my-3">
                             Modelo Knn con K=1
                         </h3>
 
@@ -292,8 +312,7 @@
                                 </div>
                                 <!-- btn to hide knn performanceKnn -->
                                 <div v-if="showPerformanceKnn">
-                                    <button @click="showPerformanceKnn=!showPerformanceKnn"
-                                        class="btn btn-warning">
+                                    <button @click="showPerformanceKnn=!showPerformanceKnn" class="btn btn-warning">
                                         Ocultar rendimiento de modelo
                                     </button>
                                     <ul>
@@ -397,11 +416,11 @@
 
 
                     </div>
-
-                    <div id="euclidian-model"
+                    <!-- show euclidian data model -->
+                    <div v-if="modelSelected=='euclidian'" id="euclidian-model"
                         v-if="irisData.length>0 && uniqueClasses.length>0 && trainingData.length>0 && testingData.length>0">
 
-                        <h3 class="mt-5 mb-3">
+                        <h3 class="my-3">
                             Modelo Euclidiano
                         </h3>
 
