@@ -77,9 +77,11 @@ const Exam = new Vue({
                 .catch(error => {
                     // push the error to the errors array
                     this.errorMessages.push(error)
+                })
+                .finally(() => {
+                    // hide loader
+                    this.showLoader = false;
                 });
-            // hide loader
-            this.showLoader = false;
         },
         // method to get the unique classes
         getUniqueClasses() {
@@ -101,9 +103,11 @@ const Exam = new Vue({
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
+                })
+                .finally(() => {
+                    // hide loader
+                    this.showLoader = false;
                 });
-            // hide loader
-            this.showLoader = false;
         },
         // method to separate the irisData into trainingData and testingData
         separateData() {
@@ -126,9 +130,11 @@ const Exam = new Vue({
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
+                })
+                .finally(() => {
+                    // hide loader
+                    this.showLoader = false;
                 });
-            // hide loader
-            this.showLoader = false;
         },
 
         //method to run the Knn algorithm
@@ -146,9 +152,11 @@ const Exam = new Vue({
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
+                })
+                .finally(() => {
+                    // hide loader
+                    this.showLoader = false;
                 });
-            // hide loader
-            this.showLoader = false;
         },
         // function to calculate performanceKnn of Knn
         // require the testResults as a parameter called 'testResults'
@@ -173,8 +181,10 @@ const Exam = new Vue({
                 .catch(error => {
                     this.errorMessages.push(error)
                 })
-            // hide loader
-            this.showLoader = false;
+                .finally(() => {
+                    // hide loader
+                    this.showLoader = false;
+                });
         },
 
         // method to create a prediction using the Knn algorithm
@@ -199,9 +209,11 @@ const Exam = new Vue({
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
+                })
+                .finally(() => {
+                    // hide loader
+                    this.showLoader = false;
                 });
-            // hide loader
-            this.showLoader = false;
         },
 
         // method to run the Euclidian algorithm
@@ -218,9 +230,11 @@ const Exam = new Vue({
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
+                })
+                .finally(() => {
+                    // hide loader
+                    this.showLoader = false;
                 });
-            // hide loader
-            this.showLoader = false;
         },
 
         // method to calculate the performance of euclidian algorithm
@@ -244,9 +258,11 @@ const Exam = new Vue({
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
+                })
+                .finally(() => {
+                    // hide loader
+                    this.showLoader = false;
                 });
-            // hide loader
-            this.showLoader = false;
         },
 
 
@@ -272,9 +288,11 @@ const Exam = new Vue({
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
+                })
+                .finally(() => {
+                    // hide loader
+                    this.showLoader = false;
                 });
-            // hide loader
-            this.showLoader = false;
         },
         // function to crear the prediction form and the prediction results
         clearPredictionKnn() {
