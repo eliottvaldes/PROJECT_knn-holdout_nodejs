@@ -7,7 +7,7 @@ const { readFile, getUniqueClasses, separateData } = require('../helpers/dataset
 // Define the fileName and the path to get the data
 let fileName = '';
 fileName = '/../assets/files/iris.data';
-fileName = '/../assets/files/iris-test.data';
+// fileName = '/../assets/files/iris-test.data';
 const fullPath = __dirname + fileName;
 
 
