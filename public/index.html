@@ -334,7 +334,7 @@
                             </button>
                             <div v-if="showFormPrediction">
                                 <button @click="showFormPrediction=!showFormPrediction" class="btn btn-outline-danger">
-                                    Cancelar predicción
+                                    Cancelar clasificación
                                 </button>
 
                                 <div class="card my-3">
@@ -389,13 +389,28 @@
 
                                         <div v-if="predictionResultsKnn.length!=0" class="container">
                                             <!-- show prediction results -->
-                                            <div class="row justify-content-center align-items-center g-2">
-                                                <div class="col-12">
+                                            <div class="row justify-content-between align-items-center text-center">
+                                                <div class="col-12 text-center mt-3">
                                                     <img :src="'/assets/img/'+predictionResultsKnn.class+'.jpg'"
-                                                        :alt="predictionResultsKnn.class" width="100%">
+                                                        :alt="predictionResultsKnn.class" width="100%"
+                                                        style="max-width: 500px;" class="rounded">
                                                 </div>
-                                                <div class="col">Clase: {{predictionResultsKnn.class}}</div>
-                                                <div class="col">Distancia: {{predictionResultsKnn.distance}} </div>
+                                                <div class="col col-sm-12">
+                                                    <p>
+                                                        <span style="font-weight: bold;">Clase:</span>
+                                                        <span
+                                                            style="text-decoration: underline;">{{predictionResultsKnn.class}}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div class="col col-sm-12">
+                                                    <p>
+                                                        <span style="font-weight: bold;">Distancia:</span>
+                                                        <span
+                                                            style="text-decoration: underline;">{{predictionResultsKnn.distance}}
+                                                        </span>
+                                                    </p>
+                                                </div>
                                             </div>
                                             <!-- btn to create new prediction -->
                                             <button @click="clearPredictionKnn()"
@@ -521,7 +536,7 @@
                             <div v-if="showFormPredictionEuclidian">
                                 <button @click="showFormPredictionEuclidian=!showFormPredictionEuclidian"
                                     class="btn btn-outline-danger">
-                                    Cancelar predicción
+                                    Cancelar clasificación
                                 </button>
 
                                 <div class="card my-3">
@@ -576,13 +591,27 @@
 
                                         <div v-if="predictionResultsEuclidian.length!=0" class="container">
                                             <!-- show prediction results -->
-                                            <div class="row justify-content-center align-items-center g-2">
-                                                <div class="col-12">
+                                            <div class="row justify-content-between align-items-center text-center">
+                                                <div class="col-12 text-center mt-3">
                                                     <img :src="'/assets/img/'+predictionResultsEuclidian.class+'.jpg'"
-                                                        :alt="predictionResultsEuclidian.class" width="100%">
+                                                        :alt="predictionResultsEuclidian.class" width="100%"
+                                                        style="max-width: 500px;" class="rounded">
                                                 </div>
-                                                <div class="col">Clase: {{predictionResultsEuclidian.class}}</div>
-                                                <div class="col">Distancia: {{predictionResultsEuclidian.distance}}
+                                                <div class="col col-sm-12">
+                                                    <p>
+                                                        <span style="font-weight: bold;">Clase:</span>
+                                                        <span
+                                                            style="text-decoration: underline;">{{predictionResultsEuclidian.class}}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div class="col col-sm-12">
+                                                    <p>
+                                                        <span style="font-weight: bold;">Distancia:</span>
+                                                        <span
+                                                            style="text-decoration: underline;">{{predictionResultsEuclidian.distance}}
+                                                        </span>
+                                                    </p>
                                                 </div>
                                             </div>
                                             <!-- btn to create new prediction -->
