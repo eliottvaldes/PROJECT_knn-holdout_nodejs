@@ -2,6 +2,7 @@
 const Exam = new Vue({
     el: '#app',
     data: {
+        modelSelected: 'choose',
         enviroment: null,
         irisData: [],        
         meanByClass: [],
@@ -97,8 +98,7 @@ const Exam = new Vue({
             })
                 .then(response => {
                     this.uniqueClasses = response.data.uniqueClasses;
-                    console.log(this.uniqueClasses);
-                    this.showUniqueClasses = true;
+                    console.log(this.uniqueClasses);                    
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
