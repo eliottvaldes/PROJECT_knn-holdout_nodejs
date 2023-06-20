@@ -2,6 +2,7 @@
 const Exam = new Vue({
     el: '#app',
     data: {
+        pageToShow: 'selectOptions',
         modelSelected: 'choose',
         enviroment: null,
         irisData: [],

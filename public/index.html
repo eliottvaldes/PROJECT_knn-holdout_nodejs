@@ -28,668 +28,801 @@
 
                 <div id="app">
 
+                    <div v-if="pageToShow=='selectOptions'" class="mt-4 mb-5 fade-in">
+                        <h1 class="mb-3">Examen de Paradigmas de programación</h1>
+                        <h5 class="mb-1">Eliot Fabián Valdés Luis</h5>
+                        <h5 class="mb-4">Ing. Inteligencia Artificial </h5>
 
-                    <h3 class="mb-3">
-                        Configuaración inicial de entorno
-                    </h3>
+                        <!-- implement a hr to dive sections and add a message to select option -->
+                        <hr class="mb-4">
+                        <h3 class="mb-3">Selecciona la acción que deseas realizar</h3>
 
-
-                    <div id="tratamiento-archivo">
-
-                        <!-- mostramos btn para obtener data si aun no la tenemos -->
-                        <button v-if="irisData.length==0" @click="getIrisData()" class="btn btn-outline-primary">
-                            Obtener datos de archivo Iris.data
-                        </button>
-
-                        <!-- mostramos los datos dentro del archivo -->
-                        <div v-if="irisData.length>0" class="mb-3">
-
-                            <!-- btn to show data -->
-                            <div v-if="!showIrisData">
-                                <button @click="showIrisData=!showIrisData" class="btn btn-outline-success fade-in">
-                                    Mostrar todos los datos
-                                </button>
-                            </div>
-
-
-                            <div v-if="showIrisData">
-                                <!-- btn to hide results -->
-                                <button @click="showIrisData=!showIrisData" class="btn btn-warning fade-in">
-                                    Ocultar datos
-                                </button>
-                                <!-- show Iris Data in a table -->
-                                <div class="table-responsive">
-
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Clase</th>
-                                                <th scope="col">Longitud Sepalo</th>
-                                                <th scope="col">Altura Sepalo</th>
-                                                <th scope="col">Logitud Petalo</th>
-                                                <th scope="col">Altura Petalo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- show all rows in the data -->
-                                            <tr
-                                                v-for="{class:clasification,sepalLength,sepalWidth,petalLength,petalWidth},index in irisData">
-                                                <th scope="row">{{index+1}}</th> <!-- id -->
-                                                <td>{{clasification}}</td> <!-- clase -->
-                                                <td>{{sepalLength}}</td><!-- long sepalo -->
-                                                <td>{{sepalWidth}}</td><!-- altu sepalo -->
-                                                <td>{{petalLength}}</td><!-- long petalo -->
-                                                <td>{{petalWidth}}</td><!-- altu petalo -->
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
+                        <!-- create 2 cards. one to select instructions and one to select execution -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card shadow p-3 mb-4 bg-body-tertiary rounded ">
+                                    <div class="card-header">
+                                        <h3>1. Instrucciones</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Lee las instrucciones para realizar el examen.</p>
+                                        <button @click="pageToShow='instructions'" class="btn btn-outline-primary">
+                                            Ir a instrucciones
+                                        </button>
+                                    </div>
                                 </div>
-
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card shadow p-3 mb-4 bg-body-tertiary rounded">
+                                    <div class="card-header">
+                                        <h3>2. Ejecución</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Realiza el examen.</p>
+                                        <button @click="pageToShow='execution'" class="btn btn-outline-primary">
+                                            Ir a ejecución
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- obtencion de clases unicas -->
-                        <div v-if="irisData.length>0">
-                            <button v-if="uniqueClasses.length==0" @click="getUniqueClasses()"
-                                class="btn btn-outline-primary fade-in">
-                                Obtener clasificaciones de iris únicas
-                            </button>
+                    </div>
 
-                            <div v-if="uniqueClasses.length>0" class="mb-3">
-                                <div v-if="!showUniqueClasses">
-                                    <button @click="showUniqueClasses =! showUniqueClasses"
-                                        class="btn btn-outline-success fade-in">
-                                        Mostrar clasificaciones únicas
+
+                    <!-- if pageToShow!='selectOptions', add a navbar to select between page 'instructions' and 'execution'  -->
+                    <div v-if="pageToShow!='selectOptions'">
+                        <nav class="navbar bg-body-tertiary border-bottom border-bottom-dark">
+                            <div class="container-fluid">
+                                <a class="navbar-brand">3BV2 - Valdés Luis </a>
+                                <!-- create the toggle button so select between 'instructions' and 'execution' -->
+                                <div class="d-flex">
+                                    <button v-if="pageToShow!='instructions'" @click="pageToShow='instructions'"
+                                        class="btn btn-sm btn-outline-primary">
+                                        Ver Instrucciones
+                                    </button>
+                                    <button v-if="pageToShow!='execution'" @click="pageToShow='execution'"
+                                        class="btn btn-sm btn-outline-primary">
+                                        Ver Ejecución
                                     </button>
                                 </div>
-                                <div v-if="showUniqueClasses ">
-                                    <button @click="showUniqueClasses =! showUniqueClasses" class="btn btn-warning fade-in">
-                                        Ocultar clasificaciones únicas
-                                    </button>
+
+                            </div>
+                        </nav>
+                    </div>
+
+                    <div v-if="pageToShow=='instructions'">
+                        <div class="mt-4 fade-in">
+                            <h3 class="mb-4">Proporciona las respuestas a los problemas planteados a continuación.</h3>
+
+                            <div class="card shadow p-3 mb-4 bg-body-tertiary rounded">
+                                <div class="card-header">
+                                    Parte I. Programación
+                                </div>
+                                <div class="card-body">
                                     <ol>
-                                        <li v-for="classification in uniqueClasses">
-                                            {{classification}}
+                                        <li>
+                                            <p>[7.0 Puntos] Programa el Clasificador Euclidiano (o de la mínima
+                                                distancia) y el clasificador 1NN, de acuerdo con las siguientes
+                                                características:</p>
+                                            <ol type="a">
+                                                <li>Prueba con el banco de datos Iris Plant.</li>
+                                                <li>Usa los métodos de validación Hold-Out 70E/30P y Leave-One-Out.</li>
+                                                <li>Como medida de desempeño calcula el accuracy.</li>
+                                            </ol>
                                         </li>
                                     </ol>
                                 </div>
-
                             </div>
 
-                        </div>
-
-                        <!-- obtencion de datos de entrenamiento y datos de prueba -->
-                        <div v-if="irisData.length>0 && uniqueClasses.length>0">
-                            <!-- btn para obtener datos de prueba/entrenamiento -->
-                            <button v-if="trainingData.length==0 && testingData.length==0" @click="separateData()"
-                                class="btn btn-outline-primary fade-in">
-                                Obtener datos de prueba o entrenamiento
-                            </button>
-
-                            <!-- si obtenemos resultados los mostramos -->
-                            <div v-if="trainingData.length>0" class="mb-3">
-                                <!-- btn to show training data -->
-                                <div v-if="!showTrainingData">
-                                    <button @click="showTrainingData=!showTrainingData"
-                                        class="btn btn-outline-success fade-in">
-                                        Mostrar datos de entrenamiento
-                                    </button>
+                            <div class="card shadow p-3 mb-4 bg-body-tertiary rounded">
+                                <div class="card-header">
+                                    Parte II. Despliegue de las soluciones
                                 </div>
-                                <!-- btn to hide training data -->
-                                <div v-if="showTrainingData">
-                                    <button @click="showTrainingData=!showTrainingData" class="btn btn-warning fade-in">
-                                        Ocultar datos de entrenamiento
-                                    </button>
-
-                                    <!-- show Training Data in a table -->
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Clase</th>
-                                                    <th scope="col">Longitud Sepalo</th>
-                                                    <th scope="col">Altura Sepalo</th>
-                                                    <th scope="col">Logitud Petalo</th>
-                                                    <th scope="col">Altura Petalo</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- show all rows in the data -->
-                                                <tr
-                                                    v-for="{class:clasification,sepalLength,sepalWidth,petalLength,petalWidth},index in trainingData">
-                                                    <th scope="row">{{index+1}}</th> <!-- id -->
-                                                    <td>{{clasification}}</td> <!-- clase -->
-                                                    <td>{{sepalLength}}</td><!-- long sepalo -->
-                                                    <td>{{sepalWidth}}</td><!-- altu sepalo -->
-                                                    <td>{{petalLength}}</td><!-- long petalo -->
-                                                    <td>{{petalWidth}}</td><!-- altu petalo -->
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <!-- si ibtenemos resultados los mostramos -->
-                            <div v-if="testingData.length>0" class="mb-3">
-                                <!-- btn to show testingData -->
-                                <div v-if="!showTestingData">
-                                    <button @click="showTestingData=!showTestingData"
-                                        class="btn btn-outline-success fade-in">
-                                        Mostrar datos de prueba
-                                    </button>
-                                </div>
-                                <!-- btn to show testing data -->
-                                <div v-if="showTestingData">
-                                    <button @click="showTestingData=!showTestingData" class="btn btn-warning fade-in">
-                                        Ocultar datos de prueba
-                                    </button>
-                                    <!-- show Training Data in a table -->
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Clase</th>
-                                                    <th scope="col">Longitud Sepalo</th>
-                                                    <th scope="col">Altura Sepalo</th>
-                                                    <th scope="col">Logitud Petalo</th>
-                                                    <th scope="col">Altura Petalo</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- show all rows in the data -->
-                                                <tr
-                                                    v-for="{class:clasification,sepalLength,sepalWidth,petalLength,petalWidth},index in testingData">
-                                                    <th scope="row">{{index+1}}</th> <!-- id -->
-                                                    <td>{{clasification}}</td> <!-- clase -->
-                                                    <td>{{sepalLength}}</td><!-- long sepalo -->
-                                                    <td>{{sepalWidth}}</td><!-- altu sepalo -->
-                                                    <td>{{petalLength}}</td><!-- long petalo -->
-                                                    <td>{{petalWidth}}</td><!-- altu petalo -->
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- model selection -->
-                    <!-- create a select field using v-model to select model -->
-                    <div v-if="uniqueClasses.length>0 && trainingData.length>0 && testingData.length>0" class="fade-in">
-                        <!-- hr separator -->
-                        <hr class="mt-5 mb-3">
-
-                        <h3 class="mb-3">
-                            Selección de modelo
-                        </h3>
-                        <select v-model="modelSelected" class="form-control">
-                            <option value="choose" selected disabled>Seleccione un modelo</option>
-                            <option value="knn">Clasificación KNN (K=1)</option>
-                            <option value="euclidian">Clasificación Euclidiana</option>
-                        </select>
-
-                        <!-- hr separator -->
-                        <hr class="my-3">
-                    </div>
-
-
-                    <!-- show knn data model -->
-                    <div v-if="modelSelected=='knn'" id="knn-model" class="fade-in">
-
-                        <h3 class="my-3">
-                            Modelo Knn con K=1
-                        </h3>
-
-
-                        <button v-if="testResultsKnn.length==0" @click="runKnn()" class="btn btn-outline-dark">
-                            Ejecutar KNN model
-                        </button>
-
-                        <!-- in case there results, show it -->
-                        <div v-if="testResultsKnn.length>0" class="mb-3">
-                            <!-- btn to show testResultsKnn -->
-                            <div v-if="!showKnnRun">
-                                <button @click="showKnnRun=!showKnnRun" class="btn btn-outline-success fade-in">
-                                    Mostar resultados de KNN
-                                </button>
-                            </div>
-                            <!-- btn to hide testResultsKnn -->
-                            <div v-if="showKnnRun">
-                                <button @click="showKnnRun=!showKnnRun" class="btn btn-warning fade-in">
-                                    Ocultar resultados de KNN
-                                </button>
-
-                                <!-- show Training Data in a table -->
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Clase Real</th>
-                                                <th scope="col">Clase Predicha</th>
-                                                <th scope="col">Distancia Obtenida</th>
-                                                <th scope="col">Acierto</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- show all rows in the data -->
-                                            <tr v-for="{class : classification, prediction},index in testResultsKnn">
-                                                <th scope="row">{{index+1}}</th> <!-- id -->
-                                                <td>{{classification}}</td> <!-- clase real -->
-                                                <td>{{prediction[0].class}}</td><!-- clase predicha -->
-                                                <td>{{prediction[0].distance}}</td><!-- distancia obtenida -->
-                                                <td>
-                                                    <button
-                                                        :class="(classification==prediction[0].class)? 'btn btn-success' : 'btn btn-danger'">
-                                                    </button>
-                                                </td><!-- acierto -->
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="card-body">
+                                    <ol start="2">
+                                        <li>
+                                            <p>[3.0 Puntos] Despliega ambos clasificadores en un entorno en la nube de
+                                                tu elección y que sea GRATUITO.</p>
+                                            <ol type="a">
+                                                <li>Asegúrate de configurar todos los elementos necesarios.</li>
+                                                <li>Comparte el enlace a tu trabajo.</li>
+                                            </ol>
+                                        </li>
+                                    </ol>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- obtencion de rendimiento de KNN model -->
-                        <div v-if="testResultsKnn.length>0" class="mb-3">
-                            <button v-if="performanceKnn.totalTesting === 0" @click="calculateKNNPerformance()"
-                                class="btn btn-outline-primary fade-in">
-                                Obtener rendimiento de modelo KNN
-                            </button>
-
-
-                            <div v-if="testResultsKnn.length>0 && performanceKnn.totalTesting>0">
-                                <!-- btn tpo show knn performanceKnn -->
-                                <div v-if="!showPerformanceKnn">
-                                    <button @click="showPerformanceKnn=!showPerformanceKnn"
-                                        class="btn btn-outline-success">
-                                        Mostrar rendimiento de modelo
-                                    </button>
+                            <div class="card shadow p-3 mb-4 bg-body-tertiary rounded">
+                                <div class="card-header">
+                                    Entrega
                                 </div>
-                                <!-- btn to hide knn performanceKnn -->
-                                <div v-if="showPerformanceKnn">
-                                    <button @click="showPerformanceKnn=!showPerformanceKnn" class="btn btn-warning fade-in">
-                                        Ocultar rendimiento de modelo
-                                    </button>
+                                <div class="card-body">
                                     <ul>
-                                        <li>Total de datos de prueba: {{performanceKnn.totalTesting}}</li>
-                                        <li>Total de aciertos: {{performanceKnn.correctPredictions}} </li>
-                                        <li class="text-bg-dark">Rendimiento: {{performanceKnn.accuracy}}</li>
+                                        <li>Código fuente de las soluciones de la parte I.</li>
+                                        <li>Reporte de diseño, codificación y resultados obtenidos (con capturas) de la
+                                            parte 1; así como el reporte del despliegue del despliegue del punto 2
+                                            (entornos en la nube).</li>
+                                        <li>En caso de que estés en riesgo de incurrir en costos de los servicios en la
+                                            nube, genera evidencias (capturas de pantalla y videos) de tu trabajo y
+                                            borra los recursos desplegados.</li>
                                     </ul>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div v-if="pageToShow=='execution'" class="fade-in">
+
+
+                        <div id="tratamiento-archivo">
+
+                            <h3 class="mt-4 mb-3">
+                                Configuaración inicial de entorno
+                            </h3>
+
+
+                            <!-- mostramos btn para obtener data si aun no la tenemos -->
+                            <button v-if="irisData.length==0" @click="getIrisData()" class="btn btn-outline-primary">
+                                Obtener datos de archivo IrisPlant.data
+                            </button>
+
+                            <!-- mostramos los datos dentro del archivo -->
+                            <div v-if="irisData.length>0" class="mb-3">
+
+                                <!-- btn to show data -->
+                                <div v-if="!showIrisData">
+                                    <button @click="showIrisData=!showIrisData" class="btn btn-outline-success fade-in">
+                                        Mostrar todos los datos
+                                    </button>
+                                </div>
+
+
+                                <div v-if="showIrisData">
+                                    <!-- btn to hide results -->
+                                    <button @click="showIrisData=!showIrisData" class="btn btn-warning fade-in">
+                                        Ocultar datos
+                                    </button>
+                                    <!-- show Iris Data in a table -->
+                                    <div class="table-responsive">
+
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Clase</th>
+                                                    <th scope="col">Longitud Sepalo</th>
+                                                    <th scope="col">Altura Sepalo</th>
+                                                    <th scope="col">Logitud Petalo</th>
+                                                    <th scope="col">Altura Petalo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- show all rows in the data -->
+                                                <tr
+                                                    v-for="{class:clasification,sepalLength,sepalWidth,petalLength,petalWidth},index in irisData">
+                                                    <th scope="row">{{index+1}}</th> <!-- id -->
+                                                    <td>{{clasification}}</td> <!-- clase -->
+                                                    <td>{{sepalLength}}</td><!-- long sepalo -->
+                                                    <td>{{sepalWidth}}</td><!-- altu sepalo -->
+                                                    <td>{{petalLength}}</td><!-- long petalo -->
+                                                    <td>{{petalWidth}}</td><!-- altu petalo -->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- obtencion de clases unicas -->
+                            <div v-if="irisData.length>0">
+                                <button v-if="uniqueClasses.length==0" @click="getUniqueClasses()"
+                                    class="btn btn-outline-primary fade-in">
+                                    Obtener clasificaciones de iris únicas
+                                </button>
+
+                                <div v-if="uniqueClasses.length>0" class="mb-3">
+                                    <div v-if="!showUniqueClasses">
+                                        <button @click="showUniqueClasses =! showUniqueClasses"
+                                            class="btn btn-outline-success fade-in">
+                                            Mostrar clasificaciones únicas
+                                        </button>
+                                    </div>
+                                    <div v-if="showUniqueClasses ">
+                                        <button @click="showUniqueClasses =! showUniqueClasses"
+                                            class="btn btn-warning fade-in">
+                                            Ocultar clasificaciones únicas
+                                        </button>
+                                        <ol>
+                                            <li v-for="classification in uniqueClasses">
+                                                {{classification}}
+                                            </li>
+                                        </ol>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <!-- obtencion de datos de entrenamiento y datos de prueba -->
+                            <div v-if="irisData.length>0 && uniqueClasses.length>0">
+                                <!-- btn para obtener datos de prueba/entrenamiento -->
+                                <button v-if="trainingData.length==0 && testingData.length==0" @click="separateData()"
+                                    class="btn btn-outline-primary fade-in">
+                                    Obtener datos de prueba o entrenamiento
+                                </button>
+
+                                <!-- si obtenemos resultados los mostramos -->
+                                <div v-if="trainingData.length>0" class="mb-3">
+                                    <!-- btn to show training data -->
+                                    <div v-if="!showTrainingData">
+                                        <button @click="showTrainingData=!showTrainingData"
+                                            class="btn btn-outline-success fade-in">
+                                            Mostrar datos de entrenamiento
+                                        </button>
+                                    </div>
+                                    <!-- btn to hide training data -->
+                                    <div v-if="showTrainingData">
+                                        <button @click="showTrainingData=!showTrainingData"
+                                            class="btn btn-warning fade-in">
+                                            Ocultar datos de entrenamiento
+                                        </button>
+
+                                        <!-- show Training Data in a table -->
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Clase</th>
+                                                        <th scope="col">Longitud Sepalo</th>
+                                                        <th scope="col">Altura Sepalo</th>
+                                                        <th scope="col">Logitud Petalo</th>
+                                                        <th scope="col">Altura Petalo</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- show all rows in the data -->
+                                                    <tr
+                                                        v-for="{class:clasification,sepalLength,sepalWidth,petalLength,petalWidth},index in trainingData">
+                                                        <th scope="row">{{index+1}}</th> <!-- id -->
+                                                        <td>{{clasification}}</td> <!-- clase -->
+                                                        <td>{{sepalLength}}</td><!-- long sepalo -->
+                                                        <td>{{sepalWidth}}</td><!-- altu sepalo -->
+                                                        <td>{{petalLength}}</td><!-- long petalo -->
+                                                        <td>{{petalWidth}}</td><!-- altu petalo -->
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <!-- si ibtenemos resultados los mostramos -->
+                                <div v-if="testingData.length>0" class="mb-3">
+                                    <!-- btn to show testingData -->
+                                    <div v-if="!showTestingData">
+                                        <button @click="showTestingData=!showTestingData"
+                                            class="btn btn-outline-success fade-in">
+                                            Mostrar datos de prueba
+                                        </button>
+                                    </div>
+                                    <!-- btn to show testing data -->
+                                    <div v-if="showTestingData">
+                                        <button @click="showTestingData=!showTestingData"
+                                            class="btn btn-warning fade-in">
+                                            Ocultar datos de prueba
+                                        </button>
+                                        <!-- show Training Data in a table -->
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Clase</th>
+                                                        <th scope="col">Longitud Sepalo</th>
+                                                        <th scope="col">Altura Sepalo</th>
+                                                        <th scope="col">Logitud Petalo</th>
+                                                        <th scope="col">Altura Petalo</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- show all rows in the data -->
+                                                    <tr
+                                                        v-for="{class:clasification,sepalLength,sepalWidth,petalLength,petalWidth},index in testingData">
+                                                        <th scope="row">{{index+1}}</th> <!-- id -->
+                                                        <td>{{clasification}}</td> <!-- clase -->
+                                                        <td>{{sepalLength}}</td><!-- long sepalo -->
+                                                        <td>{{sepalWidth}}</td><!-- altu sepalo -->
+                                                        <td>{{petalLength}}</td><!-- long petalo -->
+                                                        <td>{{petalWidth}}</td><!-- altu petalo -->
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
+                        <!-- model selection -->
+                        <!-- create a select field using v-model to select model -->
+                        <div v-if="uniqueClasses.length>0 && trainingData.length>0 && testingData.length>0"
+                            class="fade-in">
+                            <!-- hr separator -->
+                            <hr class="mt-5 mb-3">
 
-                        <!-- crear prediccion de modelo -->
-                        <div v-if="testResultsKnn.length>0">
-                            <button v-if="!showFormPrediction" @click="showFormPrediction=!showFormPrediction"
-                                class="btn btn-outline-success fade-in">
-                                Nueva clasificación
+                            <h3 class="mb-3">
+                                Selección de modelo
+                            </h3>
+                            <select v-model="modelSelected" class="form-control">
+                                <option value="choose" selected disabled>Seleccione un modelo</option>
+                                <option value="knn">Clasificación KNN (K=1)</option>
+                                <option value="euclidian">Clasificación Euclidiana</option>
+                            </select>
+
+                            <!-- hr separator -->
+                            <hr class="my-3">
+                        </div>
+
+
+                        <!-- show knn data model -->
+                        <div v-if="modelSelected=='knn'" id="knn-model" class="fade-in">
+
+                            <h3 class="my-3">
+                                Modelo Knn con K=1
+                            </h3>
+
+
+                            <button v-if="testResultsKnn.length==0" @click="runKnn()" class="btn btn-outline-dark">
+                                Ejecutar KNN model
                             </button>
-                            <div v-if="showFormPrediction" class="fade-in">
-                                <button @click="showFormPrediction=!showFormPrediction"
-                                    class="btn btn-outline-danger fade-in">
-                                    Cancelar clasificación
-                                </button>
 
-                                <div class="card my-3">
-                                    <div class="card-header">Ingresa los datos para la nueva prediccion</div>
-                                    <div class="card-body">
-                                        <div class="mb-3 row">
-                                            <label for="long-sepalo" class="col-sm-2 col-form-label">
-                                                Logitud Sepalo
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input v-model="predictionDataKnn.sepalLength"
-                                                    :disabled="predictionKnnFormDisabled" type="text"
-                                                    class="form-control" id="long-sepalo" inputmode="numeric">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label for="altura-sepalo" class="col-sm-2 col-form-label">
-                                                Altura Sepalo
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input v-model="predictionDataKnn.sepalWidth"
-                                                    :disabled="predictionKnnFormDisabled" type="text"
-                                                    class="form-control" id="altura-sepalo" inputmode="numeric">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label for="long-petalo" class="col-sm-2 col-form-label">
-                                                Logitud Petalo
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input v-model="predictionDataKnn.petalLength"
-                                                    :disabled="predictionKnnFormDisabled" type="text"
-                                                    class="form-control" id="long-petalo" inputmode="numeric">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label for="altura-petalo" class="col-sm-2 col-form-label">
-                                                Altura Petalo
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input v-model="predictionDataKnn.petalWidth"
-                                                    :disabled="predictionKnnFormDisabled" type="text"
-                                                    class="form-control" id="altura-petalo" inputmode="numeric">
-                                            </div>
-                                        </div>
+                            <!-- in case there results, show it -->
+                            <div v-if="testResultsKnn.length>0" class="mb-3">
+                                <!-- btn to show testResultsKnn -->
+                                <div v-if="!showKnnRun">
+                                    <button @click="showKnnRun=!showKnnRun" class="btn btn-outline-success fade-in">
+                                        Mostar resultados de KNN
+                                    </button>
+                                </div>
+                                <!-- btn to hide testResultsKnn -->
+                                <div v-if="showKnnRun">
+                                    <button @click="showKnnRun=!showKnnRun" class="btn btn-warning fade-in">
+                                        Ocultar resultados de KNN
+                                    </button>
 
-                                        <button v-if="predictionResultsKnn.length==0" @click="predictKNN()"
-                                            class="btn btn-outline-primary float-end">
-                                            Obtener clasificación
-                                        </button>
-
-
-                                        <div v-if="predictionResultsKnn.length!=0" class="container fade-in">
-                                            <!-- show prediction results -->
-                                            <div class="row justify-content-between align-items-center text-center">
-                                                <div class="col-12 text-center mt-3">
-                                                    <img :src="'/assets/img/'+predictionResultsKnn.class+'.jpg'"
-                                                        :alt="predictionResultsKnn.class" width="100%"
-                                                        style="max-width: 500px;" class="rounded">
-                                                </div>
-                                                <div class="col col-sm-12">
-                                                    <p>
-                                                        <span style="font-weight: bold;">Clase:</span>
-                                                        <span
-                                                            style="text-decoration: underline;">{{predictionResultsKnn.class}}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                                <div class="col col-sm-12">
-                                                    <p>
-                                                        <span style="font-weight: bold;">Distancia:</span>
-                                                        <span
-                                                            style="text-decoration: underline;">{{predictionResultsKnn.distance}}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <!-- btn to create new prediction -->
-                                            <button @click="clearPredictionKnn()"
-                                                class="btn btn-outline-warning float-end mt-2">
-                                                Nueva clasificación
-                                            </button>
-                                        </div>
-
-
+                                    <!-- show Training Data in a table -->
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Clase Real</th>
+                                                    <th scope="col">Clase Predicha</th>
+                                                    <th scope="col">Distancia Obtenida</th>
+                                                    <th scope="col">Acierto</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- show all rows in the data -->
+                                                <tr
+                                                    v-for="{class : classification, prediction},index in testResultsKnn">
+                                                    <th scope="row">{{index+1}}</th> <!-- id -->
+                                                    <td>{{classification}}</td> <!-- clase real -->
+                                                    <td>{{prediction[0].class}}</td><!-- clase predicha -->
+                                                    <td>{{prediction[0].distance}}</td><!-- distancia obtenida -->
+                                                    <td>
+                                                        <button
+                                                            :class="(classification==prediction[0].class)? 'btn btn-success' : 'btn btn-danger'">
+                                                        </button>
+                                                    </td><!-- acierto -->
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
 
-
-                        </div>
-
-
-
-
-                    </div>
-                    <!-- show euclidian data model -->
-                    <div v-if="modelSelected=='euclidian'" id="euclidian-model" class="fade-in">
-
-                        <h3 class="my-3">
-                            Modelo Euclidiano
-                        </h3>
-
-
-                        <button v-if="testResultsEuclidian.length==0" @click="runEuclidian()"
-                            class="btn btn-outline-dark">
-                            Ejecutar modelo Euclidiano
-                        </button>
-
-                        <!-- in case there results, show it -->
-                        <div v-if="testResultsEuclidian.length>0" class="mb-3">
-                            <!-- btn to show testResultsEuclidian -->
-                            <div v-if="!showEuclidianRun">
-                                <button @click="showEuclidianRun=!showEuclidianRun"
-                                    class="btn btn-outline-success fade-in">
-                                    Mostrar resultados de clasificador Euclidiano
-                                </button>
-                            </div>
-                            <!-- btn to hide testResultsEuclidian -->
-                            <div v-if="showEuclidianRun">
-                                <button @click="showEuclidianRun=!showEuclidianRun" class="btn btn-warning fade-in">
-                                    Ocultar resultados de clasificador Euclidiano
+                            <!-- obtencion de rendimiento de KNN model -->
+                            <div v-if="testResultsKnn.length>0" class="mb-3">
+                                <button v-if="performanceKnn.totalTesting === 0" @click="calculateKNNPerformance()"
+                                    class="btn btn-outline-primary fade-in">
+                                    Obtener rendimiento de modelo KNN
                                 </button>
 
-                                <!-- show Training Data in a table -->
-                                <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Clase Real</th>
-                                                <th scope="col">Clase Predicha</th>
-                                                <th scope="col">Distancia Obtenida</th>
-                                                <th scope="col">Acierto</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- show all rows in the data -->
-                                            <tr
-                                                v-for="{class : classification, prediction},index in testResultsEuclidian">
-                                                <th scope="row">{{index+1}}</th> <!-- id -->
-                                                <td>{{classification}}</td> <!-- clase real -->
-                                                <td>{{prediction[0].class}}</td><!-- clase predicha -->
-                                                <td>{{prediction[0].distance}}</td><!-- distancia obtenida -->
-                                                <td>
-                                                    <button
-                                                        :class="(classification==prediction[0].class)? 'btn btn-success' : 'btn btn-danger'">
-                                                    </button>
-                                                </td><!-- acierto -->
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- mostrar meanByClass -->
-                        <div v-if="testResultsEuclidian.length>0" class="mb-3">
-                            <!-- btn to show meanByClass -->
-                            <div v-if="!showMeanByClassEuclidian">
-                                <button @click="showMeanByClassEuclidian=!showMeanByClassEuclidian"
-                                    class="btn btn-outline-success fade-in">
-                                    Mostrar centroides
-                                </button>
-                            </div>
-                            <!-- btn to hide meanByClass -->
-                            <div v-if="showMeanByClassEuclidian">
-                                <button @click="showMeanByClassEuclidian=!showMeanByClassEuclidian"
-                                    class="btn btn-warning fade-in">
-                                    Ocultar centroides
-                                </button>
-                                <div class="table-responsive">
-
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Clase</th>
-                                                <th scope="col">Longitud Sepalo</th>
-                                                <th scope="col">Altura Sepalo</th>
-                                                <th scope="col">Logitud Petalo</th>
-                                                <th scope="col">Altura Petalo</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- show all rows in the data -->
-                                            <tr
-                                                v-for="{class:clasification,sepalLength,sepalWidth,petalLength,petalWidth},index in meanByClass">
-                                                <th scope="row">{{index+1}}</th> <!-- id -->
-                                                <td>{{clasification}}</td> <!-- clase -->
-                                                <td>{{sepalLength}}</td><!-- long sepalo -->
-                                                <td>{{sepalWidth}}</td><!-- altu sepalo -->
-                                                <td>{{petalLength}}</td><!-- long petalo -->
-                                                <td>{{petalWidth}}</td><!-- altu petalo -->
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
+                                <div v-if="testResultsKnn.length>0 && performanceKnn.totalTesting>0">
+                                    <!-- btn tpo show knn performanceKnn -->
+                                    <div v-if="!showPerformanceKnn">
+                                        <button @click="showPerformanceKnn=!showPerformanceKnn"
+                                            class="btn btn-outline-success">
+                                            Mostrar rendimiento de modelo
+                                        </button>
+                                    </div>
+                                    <!-- btn to hide knn performanceKnn -->
+                                    <div v-if="showPerformanceKnn">
+                                        <button @click="showPerformanceKnn=!showPerformanceKnn"
+                                            class="btn btn-warning fade-in">
+                                            Ocultar rendimiento de modelo
+                                        </button>
+                                        <ul>
+                                            <li>Total de datos de prueba: {{performanceKnn.totalTesting}}</li>
+                                            <li>Total de aciertos: {{performanceKnn.correctPredictions}} </li>
+                                            <li class="text-bg-dark">Rendimiento: {{performanceKnn.accuracy}}</li>
+                                        </ul>
+                                    </div>
                                 </div>
 
                             </div>
 
 
-                        </div>
+                            <!-- crear prediccion de modelo -->
+                            <div v-if="testResultsKnn.length>0">
+                                <button v-if="!showFormPrediction" @click="showFormPrediction=!showFormPrediction"
+                                    class="btn btn-outline-success fade-in">
+                                    Nueva clasificación
+                                </button>
+                                <div v-if="showFormPrediction" class="fade-in">
+                                    <button @click="showFormPrediction=!showFormPrediction"
+                                        class="btn btn-outline-danger fade-in">
+                                        Cancelar clasificación
+                                    </button>
 
-                        <!-- obtencion de rendimiento de KNN model -->
-                        <div v-if="testResultsEuclidian.length>0" class="mb-3">
-                            <button v-if="performanceEuclidian.totalTesting === 0"
-                                @click="calculateEuclidianPerformance()" class="btn btn-outline-primary fade-in">
-                                Obtener rendimiento de modelo Euclidiano
+                                    <div class="card shadow p-3 mb-4 bg-body-tertiary rounded my-3">
+                                        <div class="card-header">Ingresa los datos para la nueva prediccion</div>
+                                        <div class="card-body">
+                                            <div class="mb-3 row">
+                                                <label for="long-sepalo" class="col-sm-2 col-form-label">
+                                                    Logitud Sepalo
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input v-model="predictionDataKnn.sepalLength"
+                                                        :disabled="predictionKnnFormDisabled" type="text"
+                                                        class="form-control" id="long-sepalo" inputmode="numeric">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label for="altura-sepalo" class="col-sm-2 col-form-label">
+                                                    Altura Sepalo
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input v-model="predictionDataKnn.sepalWidth"
+                                                        :disabled="predictionKnnFormDisabled" type="text"
+                                                        class="form-control" id="altura-sepalo" inputmode="numeric">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label for="long-petalo" class="col-sm-2 col-form-label">
+                                                    Logitud Petalo
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input v-model="predictionDataKnn.petalLength"
+                                                        :disabled="predictionKnnFormDisabled" type="text"
+                                                        class="form-control" id="long-petalo" inputmode="numeric">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label for="altura-petalo" class="col-sm-2 col-form-label">
+                                                    Altura Petalo
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input v-model="predictionDataKnn.petalWidth"
+                                                        :disabled="predictionKnnFormDisabled" type="text"
+                                                        class="form-control" id="altura-petalo" inputmode="numeric">
+                                                </div>
+                                            </div>
+
+                                            <button v-if="predictionResultsKnn.length==0" @click="predictKNN()"
+                                                class="btn btn-outline-primary float-end">
+                                                Obtener clasificación
+                                            </button>
+
+
+                                            <div v-if="predictionResultsKnn.length!=0" class="container fade-in">
+                                                <!-- show prediction results -->
+                                                <div class="row justify-content-between align-items-center text-center">
+                                                    <div class="col-12 text-center mt-3">
+                                                        <img :src="'/assets/img/'+predictionResultsKnn.class+'.jpg'"
+                                                            :alt="predictionResultsKnn.class" width="100%"
+                                                            style="max-width: 500px;" class="rounded">
+                                                    </div>
+                                                    <div class="col col-sm-12">
+                                                        <p>
+                                                            <span style="font-weight: bold;">Clase:</span>
+                                                            <span
+                                                                style="text-decoration: underline;">{{predictionResultsKnn.class}}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col col-sm-12">
+                                                        <p>
+                                                            <span style="font-weight: bold;">Distancia:</span>
+                                                            <span
+                                                                style="text-decoration: underline;">{{predictionResultsKnn.distance}}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <!-- btn to create new prediction -->
+                                                <button @click="clearPredictionKnn()"
+                                                    class="btn btn-outline-warning float-end mt-2">
+                                                    Nueva clasificación
+                                                </button>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+
+                        </div>
+                        <!-- show euclidian data model -->
+                        <div v-if="modelSelected=='euclidian'" id="euclidian-model" class="fade-in">
+
+                            <h3 class="my-3">
+                                Modelo Euclidiano
+                            </h3>
+
+
+                            <button v-if="testResultsEuclidian.length==0" @click="runEuclidian()"
+                                class="btn btn-outline-dark">
+                                Ejecutar modelo Euclidiano
                             </button>
 
-
-                            <div v-if="testResultsEuclidian.length>0 && performanceEuclidian.totalTesting>0">
-                                <!-- btn tpo show knn performanceEuclidian -->
-                                <div v-if="!showPerformanceEuclidian">
-                                    <button @click="showPerformanceEuclidian=!showPerformanceEuclidian"
+                            <!-- in case there results, show it -->
+                            <div v-if="testResultsEuclidian.length>0" class="mb-3">
+                                <!-- btn to show testResultsEuclidian -->
+                                <div v-if="!showEuclidianRun">
+                                    <button @click="showEuclidianRun=!showEuclidianRun"
                                         class="btn btn-outline-success fade-in">
-                                        Mostrar rendimiento de modelo
+                                        Mostrar resultados de clasificador Euclidiano
                                     </button>
                                 </div>
-                                <!-- btn to hide knn performanceEuclidian -->
-                                <div v-if="showPerformanceEuclidian">
-                                    <button @click="showPerformanceEuclidian=!showPerformanceEuclidian"
+                                <!-- btn to hide testResultsEuclidian -->
+                                <div v-if="showEuclidianRun">
+                                    <button @click="showEuclidianRun=!showEuclidianRun" class="btn btn-warning fade-in">
+                                        Ocultar resultados de clasificador Euclidiano
+                                    </button>
+
+                                    <!-- show Training Data in a table -->
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Clase Real</th>
+                                                    <th scope="col">Clase Predicha</th>
+                                                    <th scope="col">Distancia Obtenida</th>
+                                                    <th scope="col">Acierto</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- show all rows in the data -->
+                                                <tr
+                                                    v-for="{class : classification, prediction},index in testResultsEuclidian">
+                                                    <th scope="row">{{index+1}}</th> <!-- id -->
+                                                    <td>{{classification}}</td> <!-- clase real -->
+                                                    <td>{{prediction[0].class}}</td><!-- clase predicha -->
+                                                    <td>{{prediction[0].distance}}</td><!-- distancia obtenida -->
+                                                    <td>
+                                                        <button
+                                                            :class="(classification==prediction[0].class)? 'btn btn-success' : 'btn btn-danger'">
+                                                        </button>
+                                                    </td><!-- acierto -->
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- mostrar meanByClass -->
+                            <div v-if="testResultsEuclidian.length>0" class="mb-3">
+                                <!-- btn to show meanByClass -->
+                                <div v-if="!showMeanByClassEuclidian">
+                                    <button @click="showMeanByClassEuclidian=!showMeanByClassEuclidian"
+                                        class="btn btn-outline-success fade-in">
+                                        Mostrar centroides
+                                    </button>
+                                </div>
+                                <!-- btn to hide meanByClass -->
+                                <div v-if="showMeanByClassEuclidian">
+                                    <button @click="showMeanByClassEuclidian=!showMeanByClassEuclidian"
                                         class="btn btn-warning fade-in">
-                                        Ocultar rendimiento de modelo
+                                        Ocultar centroides
                                     </button>
-                                    <ul>
-                                        <li>Total de datos de prueba: {{performanceEuclidian.totalTesting}}
-                                        </li>
-                                        <li>Total de aciertos: {{performanceEuclidian.correctPredictions}}
-                                        </li>
-                                        <li class="text-bg-dark">Rendimiento: {{performanceEuclidian.accuracy}}</li>
-                                    </ul>
-                                </div>
-                            </div>
+                                    <div class="table-responsive">
 
-                        </div>
-
-
-                        <!-- crear prediccion de modelo -->
-                        <div v-if="testResultsEuclidian.length>0">
-                            <button v-if="!showFormPredictionEuclidian"
-                                @click="showFormPredictionEuclidian=!showFormPredictionEuclidian"
-                                class="btn btn-outline-success fade-in">
-                                Nueva clasificación
-                            </button>
-                            <div v-if="showFormPredictionEuclidian" class="fade-in">
-                                <button @click="showFormPredictionEuclidian=!showFormPredictionEuclidian"
-                                    class="btn btn-outline-danger fade-in">
-                                    Cancelar clasificación
-                                </button>
-
-                                <div class="card my-3">
-                                    <div class="card-header">Ingresa los datos para la nueva prediccion</div>
-                                    <div class="card-body">
-                                        <div class="mb-3 row">
-                                            <label for="long-sepalo" class="col-sm-2 col-form-label">
-                                                Logitud Sepalo
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input v-model="predictionDataEuclidian.sepalLength"
-                                                    :disabled="predictionEuclidianFormDisabled" type="text"
-                                                    class="form-control" id="long-sepalo" inputmode="numeric">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label for="altura-sepalo" class="col-sm-2 col-form-label">
-                                                Altura Sepalo
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input v-model="predictionDataEuclidian.sepalWidth"
-                                                    :disabled="predictionEuclidianFormDisabled" type="text"
-                                                    class="form-control" id="altura-sepalo" inputmode="numeric">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label for="long-petalo" class="col-sm-2 col-form-label">
-                                                Logitud Petalo
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input v-model="predictionDataEuclidian.petalLength"
-                                                    :disabled="predictionEuclidianFormDisabled" type="text"
-                                                    class="form-control" id="long-petalo" inputmode="numeric">
-                                            </div>
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label for="altura-petalo" class="col-sm-2 col-form-label">
-                                                Altura Petalo
-                                            </label>
-                                            <div class="col-sm-10">
-                                                <input v-model="predictionDataEuclidian.petalWidth"
-                                                    :disabled="predictionEuclidianFormDisabled" type="text"
-                                                    class="form-control" id="altura-petalo" inputmode="numeric">
-                                            </div>
-                                        </div>
-
-                                        <button v-if="predictionResultsEuclidian.length==0" @click="predictEuclidian()"
-                                            class="btn btn-outline-primary float-end">
-                                            Obtener clasificación
-                                        </button>
-
-
-                                        <div v-if="predictionResultsEuclidian.length!=0" class="container fade-in">
-                                            <!-- show prediction results -->
-                                            <div class="row justify-content-between align-items-center text-center">
-                                                <div class="col-12 text-center mt-3">
-                                                    <img :src="'/assets/img/'+predictionResultsEuclidian.class+'.jpg'"
-                                                        :alt="predictionResultsEuclidian.class" width="100%"
-                                                        style="max-width: 500px;" class="rounded">
-                                                </div>
-                                                <div class="col col-sm-12">
-                                                    <p>
-                                                        <span style="font-weight: bold;">Clase:</span>
-                                                        <span
-                                                            style="text-decoration: underline;">{{predictionResultsEuclidian.class}}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                                <div class="col col-sm-12">
-                                                    <p>
-                                                        <span style="font-weight: bold;">Distancia:</span>
-                                                        <span
-                                                            style="text-decoration: underline;">{{predictionResultsEuclidian.distance}}
-                                                        </span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <!-- btn to create new prediction -->
-                                            <button @click="clearPredictionEuclidian()"
-                                                class="btn btn-outline-warning float-end mt-2">
-                                                Nueva clasificación
-                                            </button>
-                                        </div>
-
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Clase</th>
+                                                    <th scope="col">Longitud Sepalo</th>
+                                                    <th scope="col">Altura Sepalo</th>
+                                                    <th scope="col">Logitud Petalo</th>
+                                                    <th scope="col">Altura Petalo</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- show all rows in the data -->
+                                                <tr
+                                                    v-for="{class:clasification,sepalLength,sepalWidth,petalLength,petalWidth},index in meanByClass">
+                                                    <th scope="row">{{index+1}}</th> <!-- id -->
+                                                    <td>{{clasification}}</td> <!-- clase -->
+                                                    <td>{{sepalLength}}</td><!-- long sepalo -->
+                                                    <td>{{sepalWidth}}</td><!-- altu sepalo -->
+                                                    <td>{{petalLength}}</td><!-- long petalo -->
+                                                    <td>{{petalWidth}}</td><!-- altu petalo -->
+                                                </tr>
+                                            </tbody>
+                                        </table>
 
                                     </div>
+
                                 </div>
+
+
                             </div>
+
+                            <!-- obtencion de rendimiento de KNN model -->
+                            <div v-if="testResultsEuclidian.length>0" class="mb-3">
+                                <button v-if="performanceEuclidian.totalTesting === 0"
+                                    @click="calculateEuclidianPerformance()" class="btn btn-outline-primary fade-in">
+                                    Obtener rendimiento de modelo Euclidiano
+                                </button>
+
+
+                                <div v-if="testResultsEuclidian.length>0 && performanceEuclidian.totalTesting>0">
+                                    <!-- btn tpo show knn performanceEuclidian -->
+                                    <div v-if="!showPerformanceEuclidian">
+                                        <button @click="showPerformanceEuclidian=!showPerformanceEuclidian"
+                                            class="btn btn-outline-success fade-in">
+                                            Mostrar rendimiento de modelo
+                                        </button>
+                                    </div>
+                                    <!-- btn to hide knn performanceEuclidian -->
+                                    <div v-if="showPerformanceEuclidian">
+                                        <button @click="showPerformanceEuclidian=!showPerformanceEuclidian"
+                                            class="btn btn-warning fade-in">
+                                            Ocultar rendimiento de modelo
+                                        </button>
+                                        <ul>
+                                            <li>Total de datos de prueba: {{performanceEuclidian.totalTesting}}
+                                            </li>
+                                            <li>Total de aciertos: {{performanceEuclidian.correctPredictions}}
+                                            </li>
+                                            <li class="text-bg-dark">Rendimiento: {{performanceEuclidian.accuracy}}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <!-- crear prediccion de modelo -->
+                            <div v-if="testResultsEuclidian.length>0">
+                                <button v-if="!showFormPredictionEuclidian"
+                                    @click="showFormPredictionEuclidian=!showFormPredictionEuclidian"
+                                    class="btn btn-outline-success fade-in">
+                                    Nueva clasificación
+                                </button>
+                                <div v-if="showFormPredictionEuclidian" class="fade-in">
+                                    <button @click="showFormPredictionEuclidian=!showFormPredictionEuclidian"
+                                        class="btn btn-outline-danger fade-in">
+                                        Cancelar clasificación
+                                    </button>
+
+                                    <div class="card shadow p-3 mb-4 bg-body-tertiary rounded my-3">
+                                        <div class="card-header">Ingresa los datos para la nueva prediccion</div>
+                                        <div class="card-body">
+                                            <div class="mb-3 row">
+                                                <label for="long-sepalo" class="col-sm-2 col-form-label">
+                                                    Logitud Sepalo
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input v-model="predictionDataEuclidian.sepalLength"
+                                                        :disabled="predictionEuclidianFormDisabled" type="text"
+                                                        class="form-control" id="long-sepalo" inputmode="numeric">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label for="altura-sepalo" class="col-sm-2 col-form-label">
+                                                    Altura Sepalo
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input v-model="predictionDataEuclidian.sepalWidth"
+                                                        :disabled="predictionEuclidianFormDisabled" type="text"
+                                                        class="form-control" id="altura-sepalo" inputmode="numeric">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label for="long-petalo" class="col-sm-2 col-form-label">
+                                                    Logitud Petalo
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input v-model="predictionDataEuclidian.petalLength"
+                                                        :disabled="predictionEuclidianFormDisabled" type="text"
+                                                        class="form-control" id="long-petalo" inputmode="numeric">
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 row">
+                                                <label for="altura-petalo" class="col-sm-2 col-form-label">
+                                                    Altura Petalo
+                                                </label>
+                                                <div class="col-sm-10">
+                                                    <input v-model="predictionDataEuclidian.petalWidth"
+                                                        :disabled="predictionEuclidianFormDisabled" type="text"
+                                                        class="form-control" id="altura-petalo" inputmode="numeric">
+                                                </div>
+                                            </div>
+
+                                            <button v-if="predictionResultsEuclidian.length==0"
+                                                @click="predictEuclidian()" class="btn btn-outline-primary float-end">
+                                                Obtener clasificación
+                                            </button>
+
+
+                                            <div v-if="predictionResultsEuclidian.length!=0" class="container fade-in">
+                                                <!-- show prediction results -->
+                                                <div class="row justify-content-between align-items-center text-center">
+                                                    <div class="col-12 text-center mt-3">
+                                                        <img :src="'/assets/img/'+predictionResultsEuclidian.class+'.jpg'"
+                                                            :alt="predictionResultsEuclidian.class" width="100%"
+                                                            style="max-width: 500px;" class="rounded">
+                                                    </div>
+                                                    <div class="col col-sm-12">
+                                                        <p>
+                                                            <span style="font-weight: bold;">Clase:</span>
+                                                            <span
+                                                                style="text-decoration: underline;">{{predictionResultsEuclidian.class}}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col col-sm-12">
+                                                        <p>
+                                                            <span style="font-weight: bold;">Distancia:</span>
+                                                            <span
+                                                                style="text-decoration: underline;">{{predictionResultsEuclidian.distance}}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <!-- btn to create new prediction -->
+                                                <button @click="clearPredictionEuclidian()"
+                                                    class="btn btn-outline-warning float-end mt-2">
+                                                    Nueva clasificación
+                                                </button>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
 
 
                         </div>
 
-
-
-
                     </div>
-
 
                 </div>
 
