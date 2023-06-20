@@ -234,7 +234,7 @@
                         </button>
 
                         <!-- in case there results, show it -->
-                        <div v-if="testResults.length>0">
+                        <div v-if="testResults.length>0" class="mb-3">
                             <!-- btn to show testResults -->
                             <div v-if="!showKnnRun">
                                 <button @click="showKnnRun=!showKnnRun" class="btn btn-outline-warning">
@@ -268,7 +268,7 @@
                                                 <td>{{prediction[0].distance}}</td><!-- distancia obtenida -->
                                                 <td>
                                                     <button
-                                                        :class="(classification==prediction[0].class)? 'btn btn-success' : 'btn btn-danger'">                                                        
+                                                        :class="(classification==prediction[0].class)? 'btn btn-success' : 'btn btn-danger'">
                                                     </button>
                                                 </td><!-- acierto -->
                                             </tr>
@@ -276,6 +276,38 @@
                                     </table>
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- obtencion de rendimiento de KNN model -->
+                        <div v-if="testResults.length>0" class="mb-3">
+                            <button v-if="performance.totalTesting === 0" @click="calculateKNNPerformance()"
+                                class="btn btn-outline-warning">
+                                Medir rendimiento de modelo KNN
+                            </button>
+
+
+                            <div v-if="testResults.length>0 && performance.totalTesting>0">
+                                <!-- btn tpo show knn performance -->
+                                <div v-if="!showPerformanceKnn">
+                                    <button @click="showPerformanceKnn=!showPerformanceKnn"
+                                        class="btn btn-outline-warning">
+                                        Ver rendimiento de modelo
+                                    </button>
+                                </div>
+                                <!-- btn to hide knn performance -->
+                                <div v-if="showPerformanceKnn">
+                                    <button @click="showPerformanceKnn=!showPerformanceKnn"
+                                        class="btn btn-outline-warning">
+                                        Ocultar rendimiento de modelo
+                                    </button>
+                                    <ul>
+                                        <li>Cantidad Total de datos de prueba: {{performance.totalTesting}}</li>
+                                        <li>Cantidada Total de aciertos: {{performance.correctPredictions}} </li>
+                                        <li>Rendimiento: {{performance.accuracy}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+
                         </div>
 
 
