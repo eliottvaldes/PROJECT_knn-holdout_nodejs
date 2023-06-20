@@ -229,19 +229,19 @@
                         </h3>
 
 
-                        <button v-if="testResults.length==0" @click="runKnn()" class="btn btn-outline-dark">
+                        <button v-if="testResultsKnn.length==0" @click="runKnn()" class="btn btn-outline-dark">
                             Ejecutar KNN model
                         </button>
 
                         <!-- in case there results, show it -->
-                        <div v-if="testResults.length>0" class="mb-3">
-                            <!-- btn to show testResults -->
+                        <div v-if="testResultsKnn.length>0" class="mb-3">
+                            <!-- btn to show testResultsKnn -->
                             <div v-if="!showKnnRun">
                                 <button @click="showKnnRun=!showKnnRun" class="btn btn-outline-warning">
                                     Mostar resultados de KNN
                                 </button>
                             </div>
-                            <!-- btn to hide testResults -->
+                            <!-- btn to hide testResultsKnn -->
                             <div v-if="showKnnRun">
                                 <button @click="showKnnRun=!showKnnRun" class="btn btn-outline-warning">
                                     Ocultar resultados de KNN
@@ -261,7 +261,7 @@
                                         </thead>
                                         <tbody>
                                             <!-- show all rows in the data -->
-                                            <tr v-for="{class : classification, prediction},index in testResults">
+                                            <tr v-for="{class : classification, prediction},index in testResultsKnn">
                                                 <th scope="row">{{index+1}}</th> <!-- id -->
                                                 <td>{{classification}}</td> <!-- clase real -->
                                                 <td>{{prediction[0].class}}</td><!-- clase predicha -->
@@ -279,31 +279,31 @@
                         </div>
 
                         <!-- obtencion de rendimiento de KNN model -->
-                        <div v-if="testResults.length>0" class="mb-3">
-                            <button v-if="performance.totalTesting === 0" @click="calculateKNNPerformance()"
+                        <div v-if="testResultsKnn.length>0" class="mb-3">
+                            <button v-if="performanceKnn.totalTesting === 0" @click="calculateKNNPerformance()"
                                 class="btn btn-outline-warning">
                                 Medir rendimiento de modelo KNN
                             </button>
 
 
-                            <div v-if="testResults.length>0 && performance.totalTesting>0">
-                                <!-- btn tpo show knn performance -->
+                            <div v-if="testResultsKnn.length>0 && performanceKnn.totalTesting>0">
+                                <!-- btn tpo show knn performanceKnn -->
                                 <div v-if="!showPerformanceKnn">
                                     <button @click="showPerformanceKnn=!showPerformanceKnn"
                                         class="btn btn-outline-warning">
                                         Ver rendimiento de modelo
                                     </button>
                                 </div>
-                                <!-- btn to hide knn performance -->
+                                <!-- btn to hide knn performanceKnn -->
                                 <div v-if="showPerformanceKnn">
                                     <button @click="showPerformanceKnn=!showPerformanceKnn"
                                         class="btn btn-outline-warning">
                                         Ocultar rendimiento de modelo
                                     </button>
                                     <ul>
-                                        <li>Cantidad Total de datos de prueba: {{performance.totalTesting}}</li>
-                                        <li>Cantidada Total de aciertos: {{performance.correctPredictions}} </li>
-                                        <li>Rendimiento: {{performance.accuracy}}</li>
+                                        <li>Cantidad Total de datos de prueba: {{performanceKnn.totalTesting}}</li>
+                                        <li>Cantidada Total de aciertos: {{performanceKnn.correctPredictions}} </li>
+                                        <li>Rendimiento: {{performanceKnn.accuracy}}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -312,7 +312,7 @@
 
 
                         <!-- crear prediccion de modelo -->
-                        <div v-if="testResults.length>0">
+                        <div v-if="testResultsKnn.length>0">
                             <button v-if="!showFormPrediction" @click="showFormPrediction=!showFormPrediction"
                                 class="btn btn-outline-warning">
                                 Nueva predicción
@@ -330,9 +330,9 @@
                                                 Logitud Sepalo
                                             </label>
                                             <div class="col-sm-10">
-                                                <input v-model="predictionData.sepalLength"
-                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
-                                                    id="long-sepalo" inputmode="numeric">
+                                                <input v-model="predictionDataKnn.sepalLength"
+                                                    :disabled="predictionKnnFormDisabled" type="text"
+                                                    class="form-control" id="long-sepalo" inputmode="numeric">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
@@ -340,9 +340,9 @@
                                                 Altura Sepalo
                                             </label>
                                             <div class="col-sm-10">
-                                                <input v-model="predictionData.sepalWidth"
-                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
-                                                    id="altura-sepalo" inputmode="numeric">
+                                                <input v-model="predictionDataKnn.sepalWidth"
+                                                    :disabled="predictionKnnFormDisabled" type="text"
+                                                    class="form-control" id="altura-sepalo" inputmode="numeric">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
@@ -350,9 +350,9 @@
                                                 Logitud Petalo
                                             </label>
                                             <div class="col-sm-10">
-                                                <input v-model="predictionData.petalLength"
-                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
-                                                    id="long-petalo" inputmode="numeric">
+                                                <input v-model="predictionDataKnn.petalLength"
+                                                    :disabled="predictionKnnFormDisabled" type="text"
+                                                    class="form-control" id="long-petalo" inputmode="numeric">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
@@ -360,30 +360,30 @@
                                                 Altura Petalo
                                             </label>
                                             <div class="col-sm-10">
-                                                <input v-model="predictionData.petalWidth"
-                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
-                                                    id="altura-petalo" inputmode="numeric">
+                                                <input v-model="predictionDataKnn.petalWidth"
+                                                    :disabled="predictionKnnFormDisabled" type="text"
+                                                    class="form-control" id="altura-petalo" inputmode="numeric">
                                             </div>
                                         </div>
 
-                                        <button v-if="predictionResults.length==0" @click="predictKNN()"
+                                        <button v-if="predictionResultsKnn.length==0" @click="predictKNN()"
                                             class="btn btn-outline-success float-end">
                                             Obtener clasificación
                                         </button>
 
 
-                                        <div v-if="predictionResults.length!=0" class="container">
+                                        <div v-if="predictionResultsKnn.length!=0" class="container">
                                             <!-- show prediction results -->
                                             <div class="row justify-content-center align-items-center g-2">
                                                 <div class="col-12">
-                                                    <img :src="'/assets/img/'+predictionResults.class+'.jpg'"
-                                                        :alt="predictionResults.class" width="100%">
+                                                    <img :src="'/assets/img/'+predictionResultsKnn.class+'.jpg'"
+                                                        :alt="predictionResultsKnn.class" width="100%">
                                                 </div>
-                                                <div class="col">Clase: {{predictionResults.class}}</div>
-                                                <div class="col">Distancia: {{predictionResults.distance}} </div>
+                                                <div class="col">Clase: {{predictionResultsKnn.class}}</div>
+                                                <div class="col">Distancia: {{predictionResultsKnn.distance}} </div>
                                             </div>
                                             <!-- btn to create new prediction -->
-                                            <button @click="clearPrediction()"
+                                            <button @click="clearPredictionKnn()"
                                                 class="btn btn-outline-warning float-end mt-2">
                                                 Nueva predicción
                                             </button>
@@ -410,19 +410,20 @@
                         </h3>
 
 
-                        <button v-if="testResults.length==0" @click="runEuclidian()" class="btn btn-outline-dark">
+                        <button v-if="testResultsEuclidian.length==0" @click="runEuclidian()"
+                            class="btn btn-outline-dark">
                             Ejecutar modelo Euclidiano
                         </button>
 
                         <!-- in case there results, show it -->
-                        <div v-if="testResults.length>0" class="mb-3">
-                            <!-- btn to show testResults -->
+                        <div v-if="testResultsEuclidian.length>0" class="mb-3">
+                            <!-- btn to show testResultsEuclidian -->
                             <div v-if="!showEuclidianRun">
                                 <button @click="showEuclidianRun=!showEuclidianRun" class="btn btn-outline-warning">
                                     Mostar resultados de clasificador Euclidiano
                                 </button>
                             </div>
-                            <!-- btn to hide testResults -->
+                            <!-- btn to hide testResultsEuclidian -->
                             <div v-if="showEuclidianRun">
                                 <button @click="showEuclidianRun=!showEuclidianRun" class="btn btn-outline-warning">
                                     Ocultar resultados de clasificador Euclidiano
@@ -442,7 +443,8 @@
                                         </thead>
                                         <tbody>
                                             <!-- show all rows in the data -->
-                                            <tr v-for="{class : classification, prediction},index in testResults">
+                                            <tr
+                                                v-for="{class : classification, prediction},index in testResultsEuclidian">
                                                 <th scope="row">{{index+1}}</th> <!-- id -->
                                                 <td>{{classification}}</td> <!-- clase real -->
                                                 <td>{{prediction[0].class}}</td><!-- clase predicha -->
@@ -460,31 +462,33 @@
                         </div>
 
                         <!-- obtencion de rendimiento de KNN model -->
-                        <div v-if="testResults.length>0" class="mb-3">
-                            <button v-if="performance.totalTesting === 0" @click="calculateEuclidianPerformance()"
-                                class="btn btn-outline-warning">
+                        <div v-if="testResultsEuclidian.length>0" class="mb-3">
+                            <button v-if="performanceEuclidian.totalTesting === 0"
+                                @click="calculateEuclidianPerformance()" class="btn btn-outline-warning">
                                 Medir rendimiento de modelo Euclidiano
                             </button>
 
 
-                            <div v-if="testResults.length>0 && performance.totalTesting>0">
-                                <!-- btn tpo show knn performance -->
+                            <div v-if="testResultsEuclidian.length>0 && performanceEuclidian.totalTesting>0">
+                                <!-- btn tpo show knn performanceEuclidian -->
                                 <div v-if="!showPerformanceEuclidian">
                                     <button @click="showPerformanceEuclidian=!showPerformanceEuclidian"
                                         class="btn btn-outline-warning">
                                         Ver rendimiento de modelo
                                     </button>
                                 </div>
-                                <!-- btn to hide knn performance -->
+                                <!-- btn to hide knn performanceEuclidian -->
                                 <div v-if="showPerformanceEuclidian">
                                     <button @click="showPerformanceEuclidian=!showPerformanceEuclidian"
                                         class="btn btn-outline-warning">
                                         Ocultar rendimiento de modelo
                                     </button>
                                     <ul>
-                                        <li>Cantidad Total de datos de prueba: {{performance.totalTesting}}</li>
-                                        <li>Cantidada Total de aciertos: {{performance.correctPredictions}} </li>
-                                        <li>Rendimiento: {{performance.accuracy}}</li>
+                                        <li>Cantidad Total de datos de prueba: {{performanceEuclidian.totalTesting}}
+                                        </li>
+                                        <li>Cantidada Total de aciertos: {{performanceEuclidian.correctPredictions}}
+                                        </li>
+                                        <li>Rendimiento: {{performanceEuclidian.accuracy}}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -493,7 +497,7 @@
 
 
                         <!-- crear prediccion de modelo -->
-                        <div v-if="testResults.length>0">
+                        <div v-if="testResultsEuclidian.length>0">
                             <button v-if="!showFormPredictionEuclidian"
                                 @click="showFormPredictionEuclidian=!showFormPredictionEuclidian"
                                 class="btn btn-outline-warning">
@@ -513,9 +517,9 @@
                                                 Logitud Sepalo
                                             </label>
                                             <div class="col-sm-10">
-                                                <input v-model="predictionData.sepalLength"
-                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
-                                                    id="long-sepalo" inputmode="numeric">
+                                                <input v-model="predictionDataEuclidian.sepalLength"
+                                                    :disabled="predictionEuclidianFormDisabled" type="text"
+                                                    class="form-control" id="long-sepalo" inputmode="numeric">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
@@ -523,9 +527,9 @@
                                                 Altura Sepalo
                                             </label>
                                             <div class="col-sm-10">
-                                                <input v-model="predictionData.sepalWidth"
-                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
-                                                    id="altura-sepalo" inputmode="numeric">
+                                                <input v-model="predictionDataEuclidian.sepalWidth"
+                                                    :disabled="predictionEuclidianFormDisabled" type="text"
+                                                    class="form-control" id="altura-sepalo" inputmode="numeric">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
@@ -533,9 +537,9 @@
                                                 Logitud Petalo
                                             </label>
                                             <div class="col-sm-10">
-                                                <input v-model="predictionData.petalLength"
-                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
-                                                    id="long-petalo" inputmode="numeric">
+                                                <input v-model="predictionDataEuclidian.petalLength"
+                                                    :disabled="predictionEuclidianFormDisabled" type="text"
+                                                    class="form-control" id="long-petalo" inputmode="numeric">
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
@@ -543,30 +547,31 @@
                                                 Altura Petalo
                                             </label>
                                             <div class="col-sm-10">
-                                                <input v-model="predictionData.petalWidth"
-                                                    :disabled="predictionFormDisabled" type="text" class="form-control"
-                                                    id="altura-petalo" inputmode="numeric">
+                                                <input v-model="predictionDataEuclidian.petalWidth"
+                                                    :disabled="predictionEuclidianFormDisabled" type="text"
+                                                    class="form-control" id="altura-petalo" inputmode="numeric">
                                             </div>
                                         </div>
 
-                                        <button v-if="predictionResults.length==0" @click="predictEuclidian()"
+                                        <button v-if="predictionResultsEuclidian.length==0" @click="predictEuclidian()"
                                             class="btn btn-outline-success float-end">
                                             Obtener clasificación
                                         </button>
 
 
-                                        <div v-if="predictionResults.length!=0" class="container">
+                                        <div v-if="predictionResultsEuclidian.length!=0" class="container">
                                             <!-- show prediction results -->
                                             <div class="row justify-content-center align-items-center g-2">
                                                 <div class="col-12">
-                                                    <img :src="'/assets/img/'+predictionResults.class+'.jpg'"
-                                                        :alt="predictionResults.class" width="100%">
+                                                    <img :src="'/assets/img/'+predictionResultsEuclidian.class+'.jpg'"
+                                                        :alt="predictionResultsEuclidian.class" width="100%">
                                                 </div>
-                                                <div class="col">Clase: {{predictionResults.class}}</div>
-                                                <div class="col">Distancia: {{predictionResults.distance}} </div>
+                                                <div class="col">Clase: {{predictionResultsEuclidian.class}}</div>
+                                                <div class="col">Distancia: {{predictionResultsEuclidian.distance}}
+                                                </div>
                                             </div>
                                             <!-- btn to create new prediction -->
-                                            <button @click="clearPrediction()"
+                                            <button @click="clearPredictionEuclidian()"
                                                 class="btn btn-outline-warning float-end mt-2">
                                                 Nueva predicción
                                             </button>

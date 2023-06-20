@@ -2,38 +2,51 @@
 const Exam = new Vue({
     el: '#app',
     data: {
-        loader: false,
-        showUniqueClasses: false,
-        showIrisData: false,
-        showTrainingData: false,
-        showTestingData: false,
-        showKnnRun: false,
-        showPerformanceKnn: false,
-        showFormPrediction: false,
-        predictionFormDisabled: false,
-        showEuclidianRun: false,
-        showPerformanceEuclidian: false,
-        showFormPredictionEuclidian: false,
         enviroment: null,
         irisData: [],
-        uniqueClasses: [],
+        loader: false,
         meanByClass: [],
-        trainingData: [],
+        predictionEuclidianFormDisabled: false,
+        predictionKnnFormDisabled: false,
+        showEuclidianRun: false,
+        showFormPrediction: false,
+        showFormPredictionEuclidian: false,
+        showIrisData: false,
+        showKnnRun: false,
+        showPerformanceEuclidian: false,
+        showPerformanceKnn: false,
+        showTestingData: false,
+        showTrainingData: false,
+        showUniqueClasses: false,
         testingData: [],
-        testResults: [],
         testResultsEuclidian: [],
-        performance: {
+        testResultsKnn: [],
+        trainingData: [],
+        uniqueClasses: [],
+        performanceKnn: {
             totalTesting: 0,
             correctPredictions: 0,
             accuracy: 0
         },
-        predictionData: {
-            sepalLength: "5.7",
-            sepalWidth: "2.1",
-            petalLength: "0.0",
-            petalWidth: "0.0"
+        performanceEuclidian: {
+            totalTesting: 0,
+            correctPredictions: 0,
+            accuracy: 0
         },
-        predictionResults: [],
+        predictionDataKnn: {
+            sepalLength: 0,
+            sepalWidth: 0,
+            petalLength: 0,
+            petalWidth: 0,
+        },
+        predictionDataEuclidian: {
+            sepalLength: 0,
+            sepalWidth: 0,
+            petalLength: 0,
+            petalWidth: 0,
+        },
+        predictionResultsKnn: [],
+        predictionResultsEuclidian: [],
         paths: {
             euclidian: '/api/euclidian',
             knn: '/api/knn',
@@ -113,10 +126,10 @@ const Exam = new Vue({
             // the format of the data sent to the server is JSON
             axios.get(`${this.enviroment}${this.paths.knn}/run`)
                 .then(response => {
-                    this.testResults = response.data.testResults;
+                    this.testResultsKnn = response.data.testResults;
                     this.trainingData = response.data.trainingData;
                     this.testingData = response.data.testData;
-                    console.log(this.testResults);
+                    console.log(this.testResultsKnn);
                     console.log(this.trainingData);
                     console.log(this.testingData);
                 })
@@ -124,22 +137,22 @@ const Exam = new Vue({
                     this.errorMessages.push(error)
                 })
         },
-        // function to calculate performance of Knn
+        // function to calculate performanceKnn of Knn
         // require the testResults as a parameter called 'testResults'
         // the format of the data sent to the server is JSON
         calculateKNNPerformance() {
             axios.post(`${this.enviroment}${this.paths.knn}/performance`, {
-                testResults: this.testResults
+                testResults: this.testResultsKnn
             }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
                 .then(response => {
-                    this.performance.totalTesting = response.data.totalTesting;
-                    this.performance.correctPredictions = response.data.correctPredictions;
-                    this.performance.accuracy = response.data.accuracy;
-                    console.log(this.performance);
+                    this.performanceKnn.totalTesting = response.data.totalTesting;
+                    this.performanceKnn.correctPredictions = response.data.correctPredictions;
+                    this.performanceKnn.accuracy = response.data.accuracy;
+                    console.log(this.performanceKnn);
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
@@ -147,13 +160,13 @@ const Exam = new Vue({
         },
 
         // method to create a prediction using the Knn algorithm
-        // require the predictionData as a parameter called 'predictionData'
+        // require the predictionDataKnn as a parameter called 'predictionDataKnn'
         // require the trainingData as a parameter called 'trainingData'
         // the format of the data sent to the server is JSON
         predictKNN() {
-            this.predictionFormDisabled = true;
+            this.predictionKnnFormDisabled = true;
             axios.post(`${this.enviroment}${this.paths.knn}/prediction`, {
-                predictionData: this.predictionData,
+                predictionData: this.predictionDataKnn,
                 trainingData: this.trainingData
             }, {
                 headers: {
@@ -161,8 +174,8 @@ const Exam = new Vue({
                 }
             })
                 .then(response => {
-                    this.predictionResults = response.data.predictionResults;
-                    console.log(this.predictionResults);
+                    this.predictionResultsKnn = response.data.predictionResults;
+                    console.log(this.predictionResultsKnn);
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
@@ -176,8 +189,8 @@ const Exam = new Vue({
             axios.get(`${this.enviroment}${this.paths.euclidian}/run`)
                 .then(response => {
                     this.meanByClass = response.data.meanByClass;
-                    this.testResults = response.data.testResults;
-                    console.log(this.testResults);
+                    this.testResultsEuclidian = response.data.testResults;
+                    console.log(this.testResultsEuclidian);
                     console.log(this.meanByClass);
                 })
                 .catch(error => {
@@ -186,20 +199,20 @@ const Exam = new Vue({
         },
 
         // method to calculate the performance of euclidian algorithm
-        // require the testResults as a parameter called 'testResults'
+        // require the testResultsEuclidian as a parameter called 'testResults'
         calculateEuclidianPerformance() {
             axios.post(`${this.enviroment}${this.paths.euclidian}/performance`, {
-                testResults: this.testResults
+                testResults: this.testResultsEuclidian
             }, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
                 .then(response => {
-                    this.performance.totalTesting = response.data.totalTesting;
-                    this.performance.correctPredictions = response.data.correctPredictions;
-                    this.performance.accuracy = response.data.accuracy;
-                    console.log(this.performance);
+                    this.performanceEuclidian.totalTesting = response.data.totalTesting;
+                    this.performanceEuclidian.correctPredictions = response.data.correctPredictions;
+                    this.performanceEuclidian.accuracy = response.data.accuracy;
+                    console.log(this.performanceEuclidian);
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
@@ -208,12 +221,13 @@ const Exam = new Vue({
 
 
         // method to create a prediction using the Euclidian algorithm
-        // require the predictionData as a parameter called 'predictionData'
+        // require the predictionDataEuclidian as a parameter called 'predictionDataEuclidian'
         // require the meanByClass as a parameter called 'meanByClass'
         // the format of the data sent to the server is JSON
         predictEuclidian() {
+            this.predictionEuclidianFormDisabled = true;
             axios.post(`${this.enviroment}${this.paths.euclidian}/prediction`, {
-                predictionData: this.predictionData,
+                predictionData: this.predictionDataEuclidian,
                 meanByClass: this.meanByClass
             }, {
                 headers: {
@@ -221,23 +235,33 @@ const Exam = new Vue({
                 }
             })
                 .then(response => {
-                    this.predictionResults = response.data.predictionResults;
-                    console.log(this.predictionResults);
+                    this.predictionResultsEuclidian = response.data.predictionResults;
+                    console.log(this.predictionResultsEuclidian);
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
                 })
         },
         // function to crear the prediction form and the prediction results
-        clearPrediction() {
-            this.predictionData = {
+        clearPredictionKnn() {
+            this.predictionDataKnn = {
                 sepalLength: 0,
                 sepalWidth: 0,
                 petalLength: 0,
                 petalWidth: 0,
             };
-            this.predictionResults = [];
-            this.predictionFormDisabled = false;
+            this.predictionResultsKnn = [];
+            this.predictionKnnFormDisabled = false;
+        },
+        clearPredictionEuclidian() {
+            this.predictionDataEuclidian = {
+                sepalLength: 0,
+                sepalWidth: 0,
+                petalLength: 0,
+                petalWidth: 0,
+            };
+            this.predictionResultsEuclidian = [];
+            this.predictionEuclidianFormDisabled = false;
         },
 
     },
