@@ -62,7 +62,6 @@ const Exam = new Vue({
             this.enviroment = (window.location.hostname.includes('localhost'))
                 ? 'http://localhost:3000'
                 : `https://${window.location.hostname}`;
-            console.log(this.enviroment);
         },
         // method to get all the iris data
         getIrisData() {
@@ -72,7 +71,6 @@ const Exam = new Vue({
             axios.get(`${this.enviroment}${this.paths.setup}/all-data`)
                 .then(response => {
                     this.irisData = response.data.irisData;
-                    console.log(this.irisData);
                 })
                 .catch(error => {
                     // push the error to the errors array
@@ -98,7 +96,6 @@ const Exam = new Vue({
             })
                 .then(response => {
                     this.uniqueClasses = response.data.uniqueClasses;
-                    console.log(this.uniqueClasses);                    
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
@@ -124,8 +121,6 @@ const Exam = new Vue({
                 .then(response => {
                     this.trainingData = response.data.trainingData;
                     this.testingData = response.data.testData;
-                    console.log(this.trainingData);
-                    console.log(this.testingData);
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
@@ -146,9 +141,6 @@ const Exam = new Vue({
                     this.testResultsKnn = response.data.testResults;
                     this.trainingData = response.data.trainingData;
                     this.testingData = response.data.testData;
-                    console.log(this.testResultsKnn);
-                    console.log(this.trainingData);
-                    console.log(this.testingData);
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
@@ -174,7 +166,6 @@ const Exam = new Vue({
                     this.performanceKnn.totalTesting = response.data.totalTesting;
                     this.performanceKnn.correctPredictions = response.data.correctPredictions;
                     this.performanceKnn.accuracy = response.data.accuracy;
-                    console.log(this.performanceKnn);
                     this.showPerformanceKnn = true;
                 })
                 .catch(error => {
@@ -203,7 +194,6 @@ const Exam = new Vue({
             })
                 .then(response => {
                     this.predictionResultsKnn = response.data.predictionResults;
-                    console.log(this.predictionResultsKnn);
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
@@ -223,8 +213,6 @@ const Exam = new Vue({
                 .then(response => {
                     this.meanByClass = response.data.meanByClass;
                     this.testResultsEuclidian = response.data.testResults;
-                    console.log(this.testResultsEuclidian);
-                    console.log(this.meanByClass);
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
@@ -250,7 +238,6 @@ const Exam = new Vue({
                     this.performanceEuclidian.totalTesting = response.data.totalTesting;
                     this.performanceEuclidian.correctPredictions = response.data.correctPredictions;
                     this.performanceEuclidian.accuracy = response.data.accuracy;
-                    console.log(this.performanceEuclidian);
                     this.showPerformanceEuclidian = true;
                 })
                 .catch(error => {
@@ -280,7 +267,6 @@ const Exam = new Vue({
             })
                 .then(response => {
                     this.predictionResultsEuclidian = response.data.predictionResults;
-                    console.log(this.predictionResultsEuclidian);
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
