@@ -3,8 +3,7 @@ const Exam = new Vue({
     el: '#app',
     data: {
         enviroment: null,
-        irisData: [],
-        loader: false,
+        irisData: [],        
         meanByClass: [],
         predictionEuclidianFormDisabled: false,
         predictionKnnFormDisabled: false,
@@ -13,6 +12,7 @@ const Exam = new Vue({
         showFormPredictionEuclidian: false,
         showIrisData: false,
         showKnnRun: false,
+        showLoader: false,
         showPerformanceEuclidian: false,
         showPerformanceKnn: false,
         showTestingData: false,
@@ -60,12 +60,14 @@ const Exam = new Vue({
         getEnviorment() {
             this.enviroment = (window.location.hostname.includes('localhost'))
                 ? 'http://localhost:3000'
-                : 'http://localhost:3000';
+                : `https://${window.location.hostname}`;
             console.log(this.enviroment);
         },
         // method to get all the iris data
         getIrisData() {
-            this.loader = true;
+            // show loader
+            this.showLoader = true;
+
             axios.get(`${this.enviroment}${this.paths.setup}/all-data`)
                 .then(response => {
                     this.irisData = response.data.irisData;
@@ -74,11 +76,15 @@ const Exam = new Vue({
                 .catch(error => {
                     // push the error to the errors array
                     this.errorMessages.push(error)
-                })
-            this.loader = false;
+                });
+            // hide loader
+            this.showLoader = false;
         },
         // method to get the unique classes
         getUniqueClasses() {
+            // show loader
+            this.showLoader = true;
+
             // require the variable irisData as a parameter called 'irisData'
             // the data sent to the server is called 'irisData'
             // the format of the data sent to the server is JSON
@@ -92,13 +98,19 @@ const Exam = new Vue({
                 .then(response => {
                     this.uniqueClasses = response.data.uniqueClasses;
                     console.log(this.uniqueClasses);
+                    this.showUniqueClasses = true;
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
-                })
+                });
+            // hide loader
+            this.showLoader = false;
         },
         // method to separate the irisData into trainingData and testingData
         separateData() {
+            // show loader
+            this.showLoader = true;
+
             // require the variable irisData as a parameter called 'irisData' and the uniqueClasses as a parameter called 'uniqueClasses'                                        
             // the format of the data sent to the server is JSON
             axios.post(`${this.enviroment}${this.paths.setup}/training-testing-data`, {
@@ -117,11 +129,16 @@ const Exam = new Vue({
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
-                })
+                });
+            // hide loader
+            this.showLoader = false;
         },
 
         //method to run the Knn algorithm
         runKnn() {
+            // show loader
+            this.showLoader = true;
+
             // require the variable irisData as a parameter called 'irisData' and the uniqueClasses as a parameter called 'uniqueClasses'                                        
             // the format of the data sent to the server is JSON
             axios.get(`${this.enviroment}${this.paths.knn}/run`)
@@ -135,12 +152,17 @@ const Exam = new Vue({
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
-                })
+                });
+            // hide loader
+            this.showLoader = false;
         },
         // function to calculate performanceKnn of Knn
         // require the testResults as a parameter called 'testResults'
         // the format of the data sent to the server is JSON
         calculateKNNPerformance() {
+            // show loader
+            this.showLoader = true;
+
             axios.post(`${this.enviroment}${this.paths.knn}/performance`, {
                 testResults: this.testResultsKnn
             }, {
@@ -153,10 +175,13 @@ const Exam = new Vue({
                     this.performanceKnn.correctPredictions = response.data.correctPredictions;
                     this.performanceKnn.accuracy = response.data.accuracy;
                     console.log(this.performanceKnn);
+                    this.showPerformanceKnn = true;
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
                 })
+            // hide loader
+            this.showLoader = false;
         },
 
         // method to create a prediction using the Knn algorithm
@@ -164,6 +189,9 @@ const Exam = new Vue({
         // require the trainingData as a parameter called 'trainingData'
         // the format of the data sent to the server is JSON
         predictKNN() {
+            // show loader
+            this.showLoader = true;
+
             this.predictionKnnFormDisabled = true;
             axios.post(`${this.enviroment}${this.paths.knn}/prediction`, {
                 predictionData: this.predictionDataKnn,
@@ -179,11 +207,16 @@ const Exam = new Vue({
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
-                })
+                });
+            // hide loader
+            this.showLoader = false;
         },
 
         // method to run the Euclidian algorithm
         runEuclidian() {
+            // show loader
+            this.showLoader = true;
+
             // require the variable irisData as a parameter called 'irisData' and the uniqueClasses as a parameter called 'uniqueClasses'                                        
             // the format of the data sent to the server is JSON
             axios.get(`${this.enviroment}${this.paths.euclidian}/run`)
@@ -195,12 +228,17 @@ const Exam = new Vue({
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
-                })
+                });
+            // hide loader
+            this.showLoader = false;
         },
 
         // method to calculate the performance of euclidian algorithm
         // require the testResultsEuclidian as a parameter called 'testResults'
         calculateEuclidianPerformance() {
+            // show loader
+            this.showLoader = true;
+
             axios.post(`${this.enviroment}${this.paths.euclidian}/performance`, {
                 testResults: this.testResultsEuclidian
             }, {
@@ -213,10 +251,13 @@ const Exam = new Vue({
                     this.performanceEuclidian.correctPredictions = response.data.correctPredictions;
                     this.performanceEuclidian.accuracy = response.data.accuracy;
                     console.log(this.performanceEuclidian);
+                    this.showPerformanceEuclidian = true;
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
-                })
+                });
+            // hide loader
+            this.showLoader = false;
         },
 
 
@@ -225,6 +266,9 @@ const Exam = new Vue({
         // require the meanByClass as a parameter called 'meanByClass'
         // the format of the data sent to the server is JSON
         predictEuclidian() {
+            // show loader
+            this.showLoader = true;
+
             this.predictionEuclidianFormDisabled = true;
             axios.post(`${this.enviroment}${this.paths.euclidian}/prediction`, {
                 predictionData: this.predictionDataEuclidian,
@@ -240,7 +284,9 @@ const Exam = new Vue({
                 })
                 .catch(error => {
                     this.errorMessages.push(error)
-                })
+                });
+            // hide loader
+            this.showLoader = false;
         },
         // function to crear the prediction form and the prediction results
         clearPredictionKnn() {
@@ -264,6 +310,22 @@ const Exam = new Vue({
             this.predictionEuclidianFormDisabled = false;
         },
 
+    },
+    watch: {
+        showLoader(state) {
+            if (state) {
+                Swal.fire({
+                    title: 'Obteniendo resultados',
+                    html: 'Por favor espere', // add html attribute if you want or remove
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading()
+                    },
+                })
+            } else {
+                Swal.close();
+            }
+        },
     },
     mounted() {
         // mounted goes here
