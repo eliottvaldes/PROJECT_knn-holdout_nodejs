@@ -4,7 +4,7 @@ const Exam = new Vue({
     data: {
         modelSelected: 'choose',
         enviroment: null,
-        irisData: [],        
+        irisData: [],
         meanByClass: [],
         predictionEuclidianFormDisabled: false,
         predictionKnnFormDisabled: false,
@@ -14,6 +14,7 @@ const Exam = new Vue({
         showIrisData: false,
         showKnnRun: false,
         showLoader: false,
+        showMeanByClassEuclidian: false,
         showPerformanceEuclidian: false,
         showPerformanceKnn: false,
         showTestingData: false,
